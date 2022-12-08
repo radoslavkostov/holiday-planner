@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+<div class="container mt-5">
+<!--    <div class="row">-->
+<!--        <form th:each="h : ${hotels}" th:method="GET" th:object="${h}" style="width: 18rem;">-->
+<!--            <img src="https://i.stack.imgur.com/l60Hf.png" class="card-img-top">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title text-white" th:field="*{name}" th:text="*{name}"></h5>-->
+<!--            </div>-->
+<!--            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Choose hotel</button>-->
+<!--        </form>-->
+<!--    </div>-->
+  <div class="row">
+    <div th:each="h : ${hotels}" th:object="${h}" class="mr-5">
+      <p th:text="*{name}"></p>
+      <a th:href="@{/choose-rooms/{id}(id = *{id})}">Choose Hotel</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

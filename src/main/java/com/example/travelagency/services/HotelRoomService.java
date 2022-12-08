@@ -2,8 +2,13 @@ package com.example.travelagency.services;
 
 import com.example.travelagency.entities.HotelEntity;
 import com.example.travelagency.entities.HotelRoomEntity;
+import com.example.travelagency.enums.HotelRoomTypeEnum;
 import com.example.travelagency.repositories.HotelRoomRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelRoomService {
@@ -27,14 +32,19 @@ public class HotelRoomService {
             HotelEntity hotelTwo = hotelService.findByName("Hotel Two");
 
             hotelRoomOne.setName("a");
+            hotelRoomOne.setType(HotelRoomTypeEnum.SINGLE);
             hotelRoomOne.setHotel(hotelOne);
             hotelRoomTwo.setName("b");
+            hotelRoomTwo.setType(HotelRoomTypeEnum.SINGLE);
             hotelRoomTwo.setHotel(hotelOne);
             hotelRoomThree.setName("c");
+            hotelRoomThree.setType(HotelRoomTypeEnum.SINGLE);
             hotelRoomThree.setHotel(hotelOne);
             hotelRoomFour.setName("d");
+            hotelRoomFour.setType(HotelRoomTypeEnum.SINGLE);
             hotelRoomFour.setHotel(hotelTwo);
             hotelRoomFive.setName("e");
+            hotelRoomFive.setType(HotelRoomTypeEnum.SINGLE);
             hotelRoomFive.setHotel(hotelTwo);
 
             hotelRoomRepository.save(hotelRoomOne);
@@ -45,7 +55,16 @@ public class HotelRoomService {
         }
     }
 
+    public Optional<HotelRoomEntity> checkReservations(LocalDate startDate, LocalDate endDate, HotelRoomTypeEnum type, Long hotelId){
+        Optional<HotelRoomEntity> optional = hotelRoomRepository.checkReservations(startDate, endDate, type, hotelId);
+        return optional;
+    }
+
     public HotelRoomEntity findByName(String name){
         return hotelRoomRepository.findByName(name).get();
+    }
+
+    public List<HotelRoomEntity> getValidRooms(HotelRoomTypeEnum type, Long hotelId) {
+        return hotelRoomRepository.findByHotelIdAndType(hotelId, type);
     }
 }

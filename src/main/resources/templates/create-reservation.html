@@ -1,18 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head::head"></head>
 <body>
 <div th:replace="fragments/navbar::navbar">
     Navbar
 </div>
-<form th:action="@{create-reservation}" th:method="post" th:object="${reservationBindingModel}" class="mt-5">
-  <input th:field="*{emailOfClient}" type="text" id="name"
-         placeholder="Client Name">
-  <input th:field="*{hotelName}" type="text" id="desc"
-         placeholder="Hotel Name">
-  <input th:field="*{roomName}" type="text" id="calories"
-         placeholder="Room Name">
-  <button type="submit" class="btn">Add</button>
-</form>
+<div class="container text-center text-white">Create reservation</div>
+<div class="container text-white">Start by choosing destination</div>
+<div class="container">
+    <form th:action="@{/create-reservation}" th:method="POST" th:object="${destinationSearchDTO}">
+<!--        <div class="form-group row">-->
+<!--            <label for="destination" class="col-sm-2 col-form-label">Travel Destination</label>-->
+<!--            <div class="col-sm-10">-->
+<!--                <select id="destination">-->
+<!--                    <option value="" selected>-</option>-->
+<!--                    <option th:each="d : ${destinations}" th:field="*{name}" th:value="${d.name}" th:text="${d.name}"></option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+        <input th:field="*{name}" class="form-control mr-sm-2" type="search"
+               placeholder="Destination name..."
+               aria-label="Search"
+               id="name"/>
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <form th:each="h : ${hotels}" th:method="GET" th:object="${h}" style="width: 18rem;">-->
+<!--            <img src="https://i.stack.imgur.com/l60Hf.png" class="card-img-top">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title" th:field="*{name}"></h5>-->
+<!--            </div>-->
+<!--            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Choose hotel</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<form th:action="@{create-reservation}" th:method="post" th:object="${reservationBindingModel}" class="mt-5">-->
+<!--  <input th:field="*{emailOfClient}" type="text" id="name"-->
+<!--         placeholder="Client Name">-->
+<!--  <input th:field="*{hotelName}" type="text" id="desc"-->
+<!--         placeholder="Hotel Name">-->
+<!--  <input th:field="*{roomName}" type="text" id="calories"-->
+<!--         placeholder="Room Name">-->
+<!--  <button type="submit" class="btn">Add</button>-->
+<!--</form>-->
 </body>
 </html>

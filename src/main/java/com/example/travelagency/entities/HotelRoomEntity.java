@@ -1,12 +1,12 @@
 package com.example.travelagency.entities;
 
+import com.example.travelagency.enums.HotelRoomTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,6 +20,10 @@ public class HotelRoomEntity extends BaseEntity {
     @ManyToOne
     private HotelEntity hotel;
 
-    private String type;
+    @OneToMany(mappedBy = "hotelRoom")
+    private List<ReservationEntity> reservations;
+
+    @Enumerated(EnumType.STRING)
+    private HotelRoomTypeEnum type;
 
 }

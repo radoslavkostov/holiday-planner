@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+
+
+<body>
+
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+
+<div class="container">
+  <div class="row">
+    <div th:each="a : ${articles}" th:object="${a}" class="card" style="width: 18rem;">
+      <img src="https://i.stack.imgur.com/l60Hf.png" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title" th:text="*{name}">Card title</h5>
+        <p class="card-text" th:text="*{shortDescription}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a th:href="@{/articles/{id}(id = *{id})}" class="btn btn-primary">Read more</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <footer></footer>
+</div>
+</body>
+</html>

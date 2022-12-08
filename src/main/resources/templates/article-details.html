@@ -4,11 +4,11 @@
 <head th:replace="fragments/head::head"></head>
 <body>
 <div th:replace="fragments/navbar::navbar">
-  Navbar
+    Navbar
 </div>
-
-<div class="container">
-  <h2 class="text-center text-white">Welcome to home page</h2>
+<div th:object="${article}" class="container text-white">
+    <h3 th:text="*{name}"></h3>
+    <div th:text="*{content}"></div>
 </div>
 </body>
 </html>

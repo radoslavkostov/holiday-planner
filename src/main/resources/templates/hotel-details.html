@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+<div th:object="${hotel}" class="container text-white">
+  <h3 th:text="*{name}" class="ml-3 mr-3"></h3>
+  <div th:text="*{description}"></div>
+</div>
+<div class="container">
+  <form th:object="${ratingDTO}" th:method="POST" th:action="@{/add-rating}">
+    <select th:field="*{value}" id="value">
+      <option value=1 selected>1</option>
+      <option value=2>2</option>
+      <option value=3>3</option>
+      <option value=4>4</option>
+      <option value=5>5</option>
+    </select>
+    <label for="review">Review(optional)</label>
+    <textarea id="review" th:field="*{review}" cols="50" rows="6" maxlength="500"></textarea>
+    <button type="submit" class="btn">Rate</button>
+  </form>
+</div>
+<div class="container text-white">
+  <span th:text="*{ratingsCount}"></span><span class="text-white"> reviews with an average rating: </span><span th:text="*{averageRating}"></span>
+</div>
+<div class="container">
+  <div th:each="r : ${ratings}" th:object="${r}" class="mb-2">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title" th:text="*{getUser().firstName+' '+getUser().lastName}"></h5>
+        <h6 class="card-subtitle mb-2 text-muted" th:text="*{value}"></h6>
+        <p class="card-text" th:text="*{review}"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

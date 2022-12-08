@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+    Navbar
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white" th:object="${forum}" th:text="*{name}"></h2>
+</div>
+<div class="container text-white" style="font-size: 24px"><span th:text="*{comments.size()}"></span><span> comments:</span></div>
+<div class="container">
+    <div th:each="c : ${comments}" th:object="${c}" class="mb-2">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title" th:text="*{getUser().firstName+' '+getUser().lastName}"></h5>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="*{timePosted.getYear()+'-'+timePosted.getMonth()+'-'+timePosted.getDayOfMonth()+' '+timePosted.getHour()+':'+timePosted.getMinute()}"></h6>
+                <p class="card-text" th:text="*{content}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mb-5">
+    <h2 class="text-center text-white">Write a comment:</h2>
+    <form th:object="${commentDTO}" th:method="POST"
+          th:action="@{/add-comment}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="form-group">
+            <label for="content" class="text-white font-weight-bold">Content</label>
+            <textarea id="content"
+                      th:field="*{content}"
+                      name="username"
+                      cols="50" rows="6" maxlength="500"
+                      class="form-control">
+            </textarea>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Post"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

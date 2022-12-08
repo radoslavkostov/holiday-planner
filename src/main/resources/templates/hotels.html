@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+<div class="container">
+  <form th:method="GET" th:action="@{/hotels}" th:object="${hotelSearchDTO}" class="mt-5">
+    <input th:field="*{name}" class="form-control mr-sm-2" type="search"
+           placeholder="Hotel name..."
+           aria-label="Search"
+           id="name"/>
+    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div>
+<div th:each="h : ${hotels}" th:object="${h}" class="card mt-5">
+  <div class="card-header" th:text="*{name}">
+  </div>
+  <div class="card-body">
+    <p class="card-text" th:text="*{shortDescription}"></p>
+    <a th:href="@{/hotels/{id}(id=*{id})}">
+      Details
+    </a>
+  </div>
+</div>
+</body>
+</html>

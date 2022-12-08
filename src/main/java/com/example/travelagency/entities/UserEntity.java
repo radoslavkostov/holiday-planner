@@ -25,6 +25,18 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     private String lastName;
 
+    @OneToMany(mappedBy = "user")
+    private List<CommentEntity> comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<ReservationEntity> reservations;
+
+    @OneToMany(mappedBy = "user")
+    private List<FavoriteEntity> favorites;
+
+    @OneToMany(mappedBy = "user")
+    private List<RatingEntity> ratings;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles = new ArrayList<>();
 

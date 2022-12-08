@@ -17,7 +17,7 @@ import java.util.List;
 public class ForumEntity extends BaseEntity {
 
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "forum")
     private List<CommentEntity> comments;
 
 }

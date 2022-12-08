@@ -7,20 +7,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "comments")
-@NoArgsConstructor
+@Table(name = "favorites")
 @Data
-public class CommentEntity extends BaseEntity {
+@NoArgsConstructor
+public class FavoriteEntity extends BaseEntity{
 
-    private String content;
     @ManyToOne
     private UserEntity user;
     @ManyToOne
-    private ForumEntity forum;
-    private LocalDateTime timePosted;
+    private TravelDestinationEntity travelDestination;
 
 }
