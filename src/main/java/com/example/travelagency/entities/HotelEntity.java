@@ -31,4 +31,12 @@ public class HotelEntity extends BaseEntity {
     @OneToMany(mappedBy = "hotel")
     private List<RatingEntity> ratings;
 
+    @Override
+    public String toString() {
+        return "HotelEntity{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                '}';
+    }
 }

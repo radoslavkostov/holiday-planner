@@ -1,14 +1,15 @@
-package com.example.travelagency.dto;
+package com.example.travelagency.models.service;
 
 import com.example.travelagency.enums.HotelRoomTypeEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-public class ReservationDTO {
+@NoArgsConstructor
+public class ReservationServiceModel {
     private int adultsCount;
     private int childrenCount;
     private HotelRoomTypeEnum type;
@@ -16,7 +17,4 @@ public class ReservationDTO {
     private LocalDate startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-
-    public ReservationDTO() {
-    }
 }

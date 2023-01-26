@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+
+<div class="container">
+  <h3 class="text-white text-center" th:text="${currentUser.email}"></h3>
+  <p class="text-white text-center" th:text="${currentUser.firstName+' '+currentUser.lastName}"></p>
+  <div>
+    <a th:href="@{/my-favorites}">Favorite Travel Destinations</a>
+  </div>
+  <div class="mt-3">
+    <a th:href="@{/rated-hotels}">Rated Hotels</a>
+  </div>
+  <div class="mt-3">
+    <a th:href="@{/my-reservations}">My Reservations</a>
+  </div>
+</div>
+</body>
+</html>

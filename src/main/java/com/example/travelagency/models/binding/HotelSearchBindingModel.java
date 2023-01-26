@@ -1,14 +1,13 @@
-package com.example.travelagency.dto;
+package com.example.travelagency.models.binding;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class DestinationSearchDTO {
+@NoArgsConstructor
+public class HotelSearchBindingModel {
     private String name;
     public boolean isEmpty() {
         return (name == null || name.isEmpty());
-    }
-
-    public DestinationSearchDTO() {
     }
 }

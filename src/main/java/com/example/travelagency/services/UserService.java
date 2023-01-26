@@ -1,9 +1,9 @@
 package com.example.travelagency.services;
 
-import com.example.travelagency.dto.UserRegisterDTO;
 import com.example.travelagency.entities.UserEntity;
 import com.example.travelagency.entities.UserRoleEntity;
 import com.example.travelagency.enums.UserRoleEnum;
+import com.example.travelagency.models.service.UserServiceModel;
 import com.example.travelagency.repositories.UserRepository;
 import com.example.travelagency.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -89,13 +89,9 @@ public class UserService {
     }
 
 
-    public void registerAndLogin(UserRegisterDTO userRegisterDTO) {
-        UserEntity newUser =
-                new UserEntity().
-                        setEmail(userRegisterDTO.getEmail()).
-                        setFirstName(userRegisterDTO.getFirstName()).
-                        setLastName(userRegisterDTO.getLastName()).
-                        setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+    public void registerAndLogin(UserServiceModel userServiceModel) {
+        UserEntity newUser = modelMapper.map(userServiceModel, UserEntity.class);
+        newUser.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
 
         userRepository.save(newUser);
 
@@ -115,10 +111,10 @@ public class UserService {
     }
 
     public UserEntity getCurrentUser() {
-        return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+        return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
     }
 
     public UserEntity findByEmail(String email){
-        return userRepository.findByEmail(email).get();
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

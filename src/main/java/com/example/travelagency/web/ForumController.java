@@ -1,9 +1,10 @@
 package com.example.travelagency.web;
 
-import com.example.travelagency.dto.CommentDTO;
-import com.example.travelagency.dto.DestinationSearchDTO;
+import com.example.travelagency.models.binding.CommentAddBindingModel;
+import com.example.travelagency.models.service.CommentServiceModel;
 import com.example.travelagency.services.CommentService;
 import com.example.travelagency.services.ForumService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +20,12 @@ import javax.validation.Valid;
 public class ForumController {
     private final ForumService forumService;
     private final CommentService commentService;
-    private Long forumId;
+    private final ModelMapper modelMapper;
 
-    public ForumController(ForumService forumService, CommentService commentService) {
+    public ForumController(ForumService forumService, CommentService commentService, ModelMapper modelMapper) {
         this.forumService = forumService;
         this.commentService = commentService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/forums")
@@ -43,23 +45,29 @@ public class ForumController {
 
         model.addAttribute("forum", forumService.getForumById(id));
         model.addAttribute("comments", commentService.getCommentsByForumId(id));
-        forumId = id;
 
         return "forum-comments";
     }
 
-    @PostMapping("/add-comment")
-    public String addComment(@Valid CommentDTO commentDTO){
+    @PostMapping("/add-comment/{id}")
+    public String addComment(@PathVariable Long id, @Valid CommentAddBindingModel commentAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        String redirect = "redirect:/forums/"+forumId;
+        String redirect = "redirect:/forums/"+id;
 
-        commentService.addComment(commentDTO);
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("commentAddBindingModel", commentAddBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.commentAddBindingModel", bindingResult);
+
+            return redirect;
+        }
+
+        commentService.addComment(modelMapper.map(commentAddBindingModel, CommentServiceModel.class), id);
 
         return redirect;
     }
 
     @ModelAttribute
-    public CommentDTO commentDTO(){
-        return new CommentDTO();
+    public CommentAddBindingModel commentAddBindingModel(){
+        return new CommentAddBindingModel();
     }
 }

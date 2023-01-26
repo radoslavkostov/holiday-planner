@@ -26,4 +26,11 @@ public class HotelRoomEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private HotelRoomTypeEnum type;
 
+    @Override
+    public String toString() {
+        return "HotelRoomEntity{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

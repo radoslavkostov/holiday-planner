@@ -2,7 +2,6 @@ package com.example.travelagency.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,5 +26,14 @@ public class TravelDestinationEntity extends BaseEntity {
 
     public void addHotel(HotelEntity hotel){
         hotels.add(hotel);
+    }
+
+    @Override
+    public String toString() {
+        return "TravelDestinationEntity{" +
+                "name='" + name + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", longDescription='" + longDescription + '\'' +
+                '}';
     }
 }

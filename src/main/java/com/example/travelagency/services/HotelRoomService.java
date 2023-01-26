@@ -67,4 +67,5 @@ public class HotelRoomService {
     public List<HotelRoomEntity> getValidRooms(HotelRoomTypeEnum type, Long hotelId) {
         return hotelRoomRepository.findByHotelIdAndType(hotelId, type);
     }
+
 }

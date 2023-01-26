@@ -10,6 +10,31 @@
 <div class="container">
     <h2 class="text-center text-white" th:object="${forum}" th:text="*{name}"></h2>
 </div>
+<div class="container mb-5">
+    <h2 class="text-center text-white">Write a comment:</h2>
+    <form th:object="${commentAddBindingModel}" th:method="POST"
+          th:action="@{/add-comment/{id}(id=${forum.id})}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="form-group">
+            <label for="content" class="text-white font-weight-bold">Content</label>
+            <textarea id="content"
+                      th:field="*{content}"
+                      name="username"
+                      cols="50" rows="6" maxlength="500"
+                      class="form-control">
+            </textarea>
+            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="errors alert alert-danger">
+            </p>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Post"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="container text-white" style="font-size: 24px"><span th:text="*{comments.size()}"></span><span> comments:</span></div>
 <div class="container">
     <div th:each="c : ${comments}" th:object="${c}" class="mb-2">
@@ -22,28 +47,6 @@
         </div>
     </div>
 </div>
-<div class="container mb-5">
-    <h2 class="text-center text-white">Write a comment:</h2>
-    <form th:object="${commentDTO}" th:method="POST"
-          th:action="@{/add-comment}"
-          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-        <div class="form-group">
-            <label for="content" class="text-white font-weight-bold">Content</label>
-            <textarea id="content"
-                      th:field="*{content}"
-                      name="username"
-                      cols="50" rows="6" maxlength="500"
-                      class="form-control">
-            </textarea>
-        </div>
-        <div class="row">
-            <div class="col col-md-4">
-                <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Post"/>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+
 </body>
 </html>

@@ -6,7 +6,7 @@
 <div th:replace="fragments/navbar::navbar">
   Navbar
 </div>
-<form th:method="GET" th:action="@{/search-destination}" th:object="${destinationSearchDTO}" class="mt-5">
+<form th:method="GET" th:action="@{/search-destination}" th:object="${travelDestinationSearchBindingModel}" class="mt-5">
   <input th:field="*{name}" class="form-control mr-sm-2" type="search"
          placeholder="Destination name..."
          aria-label="Search"

@@ -7,7 +7,7 @@
   Navbar
 </div>
 <div class="container">
-  <form th:method="GET" th:action="@{/hotels}" th:object="${hotelSearchDTO}" class="mt-5">
+  <form th:method="GET" th:action="@{/hotels}" th:object="${hotelSearchBindingModel}" class="mt-5">
     <input th:field="*{name}" class="form-control mr-sm-2" type="search"
            placeholder="Hotel name..."
            aria-label="Search"

@@ -20,4 +20,12 @@ public class ArticleEntity extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Override
+    public String toString() {
+        return "ArticleEntity{" +
+                "name='" + name + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

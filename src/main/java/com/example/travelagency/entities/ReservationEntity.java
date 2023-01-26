@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -31,4 +30,13 @@ public class ReservationEntity extends BaseEntity {
     @ManyToOne
     private HotelRoomEntity hotelRoom;
 
+    @Override
+    public String toString() {
+        return "ReservationEntity{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", adultsCount=" + adultsCount +
+                ", childrenCount=" + childrenCount +
+                '}';
+    }
 }

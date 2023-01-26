@@ -7,7 +7,7 @@
   Navbar
 </div>
 <div class="container">
-  <form th:action="@{/search-rooms}" th:method="POST" th:object="${reservationDTO}" class="mt-5 flex-column">
+  <form th:action="@{/search-rooms/{id}(id=${currentHotel.id})}" th:method="POST" th:object="${reservationAddBindingModel}" class="mt-5 flex-column">
     <label for="adults-count">Adults count</label>
     <input th:field="*{adultsCount}" type="number" id="adults-count"
            placeholder="Adults">
@@ -33,6 +33,15 @@
                aria-describedby="endDateHelpInline">
       </div>
     </div>
+    <p th:if="${#fields.hasErrors('startDate')||#fields.hasErrors('endDate')}" th:errors="*{startDate}" class="errors alert alert-danger">
+    </p>
+    <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="errors alert alert-danger">
+    </p>
+    <p th:if="${#fields.hasErrors('adultsCount')}" th:errors="*{adultsCount}" class="errors alert alert-danger">
+    </p>
+    <p th:if="${roomAvailability!=null}" class="errors alert alert-danger">
+      No rooms available in the hotel for that time period.
+    </p>
     <button type="submit" class="btn">Search for available room</button>
   </form>
 </div>

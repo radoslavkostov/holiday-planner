@@ -23,4 +23,11 @@ public class CommentEntity extends BaseEntity {
     private ForumEntity forum;
     private LocalDateTime timePosted;
 
+    @Override
+    public String toString() {
+        return "CommentEntity{" +
+                "content='" + content + '\'' +
+                ", timePosted=" + timePosted +
+                '}';
+    }
 }

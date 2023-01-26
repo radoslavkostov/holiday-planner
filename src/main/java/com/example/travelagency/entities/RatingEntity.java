@@ -22,4 +22,11 @@ public class RatingEntity extends BaseEntity {
     @ManyToOne
     private HotelEntity hotel;
 
+    @Override
+    public String toString() {
+        return "RatingEntity{" +
+                "value=" + value +
+                ", review='" + review + '\'' +
+                '}';
+    }
 }

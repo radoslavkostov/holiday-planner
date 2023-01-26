@@ -35,4 +35,11 @@ public class UserRoleEntity{
         this.userRole = userRole;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "UserRoleEntity{" +
+                "id=" + id +
+                '}';
+    }
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+<div th:each="r : ${ratedHotels}" th:object="${r}" class="card mt-5">
+  <div class="card-header" th:text="*{name}">
+  </div>
+  <div class="card-body">
+    <p class="card-text" th:text="*{shortDescription}"></p>
+    <a th:href="@{/hotels/{id}(id=*{id})}">
+      Details
+    </a>
+  </div>
+</div>
+<div class="container text-white">
+  <th:block th:if="${ratedHotels.isEmpty()}">You haven't rated any hotels yet. <a th:href="@{/hotels}" class="text-primary">Try exploring!</a></th:block>
+</div>
+</body>
+</html>

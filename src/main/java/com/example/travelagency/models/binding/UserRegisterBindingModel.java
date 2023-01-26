@@ -1,6 +1,11 @@
-package com.example.travelagency.dto;
+package com.example.travelagency.models.binding;
 
-public class UserRegisterDTO {
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class UserRegisterBindingModel {
 
     private String firstName;
     private String lastName;
@@ -11,7 +16,7 @@ public class UserRegisterDTO {
         return firstName;
     }
 
-    public UserRegisterDTO setFirstName(String firstName) {
+    public UserRegisterBindingModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -20,7 +25,7 @@ public class UserRegisterDTO {
         return lastName;
     }
 
-    public UserRegisterDTO setLastName(String lastName) {
+    public UserRegisterBindingModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -29,7 +34,7 @@ public class UserRegisterDTO {
         return password;
     }
 
-    public UserRegisterDTO setPassword(String password) {
+    public UserRegisterBindingModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -38,7 +43,7 @@ public class UserRegisterDTO {
         return email;
     }
 
-    public UserRegisterDTO setEmail(String email) {
+    public UserRegisterBindingModel setEmail(String email) {
         this.email = email;
         return this;
     }

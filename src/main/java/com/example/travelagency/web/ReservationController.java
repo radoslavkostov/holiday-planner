@@ -1,9 +1,12 @@
 package com.example.travelagency.web;
 
-import com.example.travelagency.dto.DestinationSearchDTO;
-import com.example.travelagency.dto.ReservationDTO;
-import com.example.travelagency.entities.HotelEntity;
+import com.example.travelagency.models.binding.ReservationAddBindingModel;
+import com.example.travelagency.models.binding.TravelDestinationSearchBindingModel;
+import com.example.travelagency.models.service.ReservationServiceModel;
+import com.example.travelagency.models.service.TravelDestinationServiceModel;
 import com.example.travelagency.services.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class ReservationController {
@@ -24,66 +26,69 @@ public class ReservationController {
     private final HotelService hotelService;
     private final HotelRoomService hotelRoomService;
     private final UserService userService;
-    private Long hotelId;
+    private final ModelMapper modelMapper;
 
-    public ReservationController(ReservationService reservationService, TravelDestinationService travelDestinationService, HotelService hotelService, HotelRoomService hotelRoomService, UserService userService) {
+    public ReservationController(ReservationService reservationService, TravelDestinationService travelDestinationService, HotelService hotelService, HotelRoomService hotelRoomService, UserService userService, ModelMapper modelMapper) {
         this.reservationService = reservationService;
         this.travelDestinationService = travelDestinationService;
         this.hotelService = hotelService;
         this.hotelRoomService = hotelRoomService;
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/create-reservation")
-    public String get(Model model){
+    @GetMapping("/choose-destination")
+    public String get(@Valid TravelDestinationSearchBindingModel travelDestinationSearchBindingModel, Model model,
+                      BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        model.addAttribute("destinations", travelDestinationService.findAll());
+        if(bindingResult.hasErrors() || travelDestinationSearchBindingModel.isEmpty()){
+            redirectAttributes.addFlashAttribute("travelDestinationSearchBindingModel", travelDestinationSearchBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.travelDestinationSearchBindingModel", bindingResult);
 
-//        if(!model.containsAttribute("destinationSearchModel")) {
-//            model.addAttribute("destinationSearchModel", destinationSearchDTO);
-//        }
-//        System.out.println(destinationSearchDTO.getName());
-//        if(!destinationSearchDTO.isEmpty()){
-//            System.out.println("blablablablabl");
-//            List<HotelEntity> hotels = hotelService.getHotelsByDestination(destinationSearchDTO);
-//            model.addAttribute("hotels", hotels);
-//            hotels.forEach(h -> System.out.println(h.getName()));
-//        }
-        return "create-reservation";
+            return "choose-destination";
+        }
+
+        model.addAttribute("destinations",
+                travelDestinationService.searchDestinations(modelMapper.map(travelDestinationSearchBindingModel,
+                        TravelDestinationServiceModel.class)));
+
+        return "choose-destination";
     }
+//
+//    @PostMapping("/choose-destination")
+//    public String chooseDestination(@Valid TravelDestinationSearchBindingModel travelDestinationSearchBindingModel){
+//        return "redirect:/choose-hotel/"+travelDestinationService.findByName(travelDestinationSearchBindingModel.getName()).getId();
+//    }
 
-    @PostMapping("/create-reservation")
-    public String chooseDestination(@Valid DestinationSearchDTO destinationSearchDTO){
-        String result = "redirect:/select-hotel/"+travelDestinationService.findByName(destinationSearchDTO.getName()).getId();
-        return result;
-    }
-
-    @GetMapping("/select-hotel/{id}")
+    @GetMapping("/choose-hotel/{id}")
     public String selectHotel(@PathVariable("id") Long id, Model model){
-        model.addAttribute("hotels", hotelService.getHotelsByDestination(travelDestinationService.findById(id)));
+        model.addAttribute("hotels", hotelService.getHotelsByDestination(travelDestinationService.findById(id).getName()));
 
-        return "select-hotel";
+        return "choose-hotel";
     }
 
     @GetMapping("/choose-rooms/{id}")
-    public String chooseRooms(@PathVariable("id") Long id){
+    public String chooseRooms(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes){
 
-        hotelId=id;
-
+        model.addAttribute("currentHotel", hotelService.findById(id));
+        if (redirectAttributes.containsAttribute("roomAvailability")) {
+            model.addAttribute("roomAvailability", redirectAttributes.getFlashAttributes().get("roomAvailability"));
+        }
         return "choose-rooms";
     }
 
-    @PostMapping("/search-rooms")
-    public String searchRooms(@Valid ReservationDTO reservationDTO, BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes){
+    @PostMapping("/search-rooms/{id}")
+    public String searchRooms(@PathVariable Long id, @Valid ReservationAddBindingModel reservationAddBindingModel,
+                              BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        if(reservationService.chooseRooms(reservationDTO, hotelId)){
-            return "redirect:/successful-reservation";
+        if(bindingResult.hasErrors() || !reservationService.chooseRooms(modelMapper.map(reservationAddBindingModel, ReservationServiceModel.class), id)){
+            redirectAttributes.addFlashAttribute("reservationAddBindingModel", reservationAddBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.reservationAddBindingModel", bindingResult);
+            redirectAttributes.addFlashAttribute("roomAvailability", false);
+            return "redirect:/choose-rooms/"+id;
         }
 
-        redirectAttributes.addFlashAttribute("reservationDTO", reservationDTO);
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.reservationDTO", bindingResult);
-        return "redirect:/choose-rooms/"+hotelId;
+        return "redirect:/successful-reservation";
     }
 
     @GetMapping("/successful-reservation")
@@ -91,14 +96,58 @@ public class ReservationController {
         return "successful-reservation";
     }
 
+    @GetMapping("/reservations/{id}")
+    public String reservationDetails(@PathVariable Long id, Model model){
+
+        model.addAttribute("reservation", reservationService.findById(id));
+
+        return "reservation-details";
+    }
+
+
+    @PreAuthorize("@reservationService.isOwner(#principal.username, #id)")
+    @GetMapping("/delete-reservation/{id}")
+    public String deleteReservation(
+            @PathVariable("id") Long id) {
+        reservationService.deleteById(id);
+
+        return "redirect:/my-reservations";
+    }
+
+/*    @GetMapping("/edit-reservation/{id}")
+    public String edit(@PathVariable Long id, Model model){
+
+        if(!reservationService.isOwner(userService.getCurrentUser().getEmail(), id)){
+            return "redirect:/";
+        }
+
+        ReservationEntity reservationEntity = reservationService.findById(id);
+        ReservationDTO reservationDTO = modelMapper.map(reservationEntity, ReservationDTO.class);
+        reservationDTO.setType(reservationEntity.getHotelRoom().getType());
+
+        model.addAttribute("reservation", reservationDTO);
+
+
+        return "edit-reservation";
+    }
+
+    @PutMapping("/edit-reservation/{id}")
+    public String editReservation(@PathVariable Long id, @Valid ReservationDTO reservation){
+
+        reservationService.editRoom(reservation);
+
+        return "redirect:/reservations/"+id;
+    }*/
+
+
     @ModelAttribute
-    public ReservationDTO reservationDTO(){
-        return new ReservationDTO();
+    public ReservationAddBindingModel reservationAddBindingModel(){
+        return new ReservationAddBindingModel();
     }
 
     @ModelAttribute
-    public DestinationSearchDTO destinationSearchDTO(){
-        return new DestinationSearchDTO();
+    public TravelDestinationSearchBindingModel travelDestinationSearchBindingModel(){
+        return new TravelDestinationSearchBindingModel();
     }
 
 }

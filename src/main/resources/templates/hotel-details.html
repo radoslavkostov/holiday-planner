@@ -8,19 +8,35 @@
 </div>
 <div th:object="${hotel}" class="container text-white">
   <h3 th:text="*{name}" class="ml-3 mr-3"></h3>
+  <div>
+      Destination:
+      <a th:href="@{/destinations/{id}(id=*{travelDestination.id})}" th:text="*{travelDestination.name}" class="text-primary"></a>
+  </div>
   <div th:text="*{description}"></div>
 </div>
 <div class="container">
-  <form th:object="${ratingDTO}" th:method="POST" th:action="@{/add-rating}">
-    <select th:field="*{value}" id="value">
-      <option value=1 selected>1</option>
-      <option value=2>2</option>
-      <option value=3>3</option>
-      <option value=4>4</option>
-      <option value=5>5</option>
-    </select>
+  <form th:object="${ratingAddBindingModel}" th:method="POST" th:action="@{/add-rating/{id}(id=${hotel.id})}">
+<!--    th:field="*{value}"-->
+      <select name="value" id="value">
+<!--          <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"-->
+<!--                  th:selected="${5==currentUserRating.value}"></option>-->
+                <option value=1 th:selected="${1==currentUserRating.value}">1</option>
+                <option value=2 th:selected="${2==currentUserRating.value}">2</option>
+                <option value=3 th:selected="${3==currentUserRating.value}">3</option>
+                <option value=4 th:selected="${4==currentUserRating.value}">4</option>
+                <option value=5 th:selected="${5==currentUserRating.value}">5</option>
+      </select>
+<!--    <select id="value">-->
+<!--      <option th:object="${ratingDTO.value}" value=1>1</option>-->
+<!--      <option value=2>2</option>-->
+<!--      <option value=3 th:selected="${true}">3</option>-->
+<!--      <option value=4>4</option>-->
+<!--      <option value=5>5</option>-->
+<!--    </select>-->
     <label for="review">Review(optional)</label>
-    <textarea id="review" th:field="*{review}" cols="50" rows="6" maxlength="500"></textarea>
+    <textarea name="review" id="review" cols="50" rows="6" maxlength="500" th:text="${currentUserRating.review}"></textarea>
+      <p th:if="${#fields.hasErrors('value')||#fields.hasErrors('review')}" th:errors="*{review}" class="errors alert alert-danger">
+      </p>
     <button type="submit" class="btn">Rate</button>
   </form>
 </div>

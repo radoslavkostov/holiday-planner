@@ -9,7 +9,7 @@
 <div class="container text-center text-white">Create reservation</div>
 <div class="container text-white">Start by choosing destination</div>
 <div class="container">
-    <form th:action="@{/create-reservation}" th:method="POST" th:object="${destinationSearchDTO}">
+    <form th:action="@{/choose-destination}" th:method="GET" th:object="${travelDestinationSearchBindingModel}">
 <!--        <div class="form-group row">-->
 <!--            <label for="destination" class="col-sm-2 col-form-label">Travel Destination</label>-->
 <!--            <div class="col-sm-10">-->
@@ -26,25 +26,18 @@
         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
     </form>
 </div>
-<!--<div class="container">-->
-<!--    <div class="row">-->
-<!--        <form th:each="h : ${hotels}" th:method="GET" th:object="${h}" style="width: 18rem;">-->
-<!--            <img src="https://i.stack.imgur.com/l60Hf.png" class="card-img-top">-->
-<!--            <div class="card-body">-->
-<!--                <h5 class="card-title" th:field="*{name}"></h5>-->
-<!--            </div>-->
-<!--            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Choose hotel</button>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<form th:action="@{create-reservation}" th:method="post" th:object="${reservationBindingModel}" class="mt-5">-->
-<!--  <input th:field="*{emailOfClient}" type="text" id="name"-->
-<!--         placeholder="Client Name">-->
-<!--  <input th:field="*{hotelName}" type="text" id="desc"-->
-<!--         placeholder="Hotel Name">-->
-<!--  <input th:field="*{roomName}" type="text" id="calories"-->
-<!--         placeholder="Room Name">-->
-<!--  <button type="submit" class="btn">Add</button>-->
-<!--</form>-->
+<div th:each="d : ${destinations}" th:object="${d}" class="card mt-5">
+    <div class="card-header" th:text="*{name}">
+    </div>
+    <div class="card-body">
+        <p class="card-text" th:text="*{shortDescription}"></p>
+        <a th:href="@{/destinations/{id}(id=*{id})}">
+            Details
+        </a>
+        <a th:href="@{/choose-hotel/{id}(id=*{id})}">
+            Choose Destination
+        </a>
+    </div>
+</div>
 </body>
 </html>

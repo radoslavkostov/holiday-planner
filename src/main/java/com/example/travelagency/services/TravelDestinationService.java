@@ -1,11 +1,14 @@
 package com.example.travelagency.services;
 
-import com.example.travelagency.dto.DestinationSearchDTO;
 import com.example.travelagency.entities.HotelEntity;
 import com.example.travelagency.entities.TravelDestinationEntity;
+import com.example.travelagency.models.service.TravelDestinationServiceModel;
+import com.example.travelagency.models.view.TravelDestinationViewModel;
 import com.example.travelagency.repositories.TravelDestinationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,11 +17,13 @@ public class TravelDestinationService {
 
     private final TravelDestinationRepository travelDestinationRepository;
     private final HotelService hotelService;
+    private final ModelMapper modelMapper;
 
 
-    public TravelDestinationService(TravelDestinationRepository travelDestinationRepository, HotelService hotelService) {
+    public TravelDestinationService(TravelDestinationRepository travelDestinationRepository, HotelService hotelService, ModelMapper modelMapper) {
         this.travelDestinationRepository = travelDestinationRepository;
         this.hotelService = hotelService;
+        this.modelMapper = modelMapper;
     }
 
     public void init(){
@@ -55,24 +60,42 @@ public class TravelDestinationService {
 ////        return travelDestinationRepository.findTopRatedDestinations().stream().limit(3).collect(Collectors.toList());
 //    }
 
-    public TravelDestinationEntity findById(Long id){
-        return travelDestinationRepository.findById(id).orElse(null);
+    @Transactional
+    public TravelDestinationViewModel findById(Long id){
+        return travelDestinationRepository.findById(id)
+                .map(travelDestinationEntity -> modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class))
+                .orElse(null);
     }
 
-    public List<TravelDestinationEntity> searchDestinations(DestinationSearchDTO destinationSearchDTO){
-        return travelDestinationRepository.findTravelDestinationEntitiesByNameContains(destinationSearchDTO.getName());
+    @Transactional
+    public List<TravelDestinationViewModel> searchDestinations(TravelDestinationServiceModel travelDestinationServiceModel){
+        return travelDestinationRepository.findTravelDestinationEntitiesByNameContains(travelDestinationServiceModel.getName())
+                .stream().map(travelDestinationEntity -> modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class))
+                .collect(Collectors.toList());
     }
 
-    public List<TravelDestinationEntity> findAll() {
-        return travelDestinationRepository.findAll();
+    public List<TravelDestinationViewModel> findAll() {
+        return travelDestinationRepository.findAll().stream()
+                .map(travelDestinationEntity -> modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class))
+                .collect(Collectors.toList());
     }
 
-    public TravelDestinationEntity findByName(String name){
-        return travelDestinationRepository.findByName(name.toLowerCase()).orElse(null);
+    public TravelDestinationViewModel findByName(String name){
+        return travelDestinationRepository.findByName(name.toLowerCase())
+                .map(travelDestinationEntity -> modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class))
+                .orElse(null);
     }
 
-    public List<TravelDestinationEntity> getTopFavoriteDestinations() {
-        return travelDestinationRepository.findTopFavoriteDestinations().stream().limit(3).collect(Collectors.toList());
+    @Transactional
+    public List<TravelDestinationViewModel> getTopFavoriteDestinations() {
+        return travelDestinationRepository.findTopFavoriteDestinations().stream()
+                .map(travelDestinationEntity -> modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class))
+                .limit(3).collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<TravelDestinationViewModel> findByUserId(Long id) {
+        return travelDestinationRepository.findByUserId(id).stream().map(travelDestinationEntity ->
+                modelMapper.map(travelDestinationEntity, TravelDestinationViewModel.class)).collect(Collectors.toList());
+    }
 }

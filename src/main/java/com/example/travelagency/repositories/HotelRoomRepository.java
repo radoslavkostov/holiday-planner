@@ -1,8 +1,7 @@
 package com.example.travelagency.repositories;
 
-import com.example.travelagency.entities.HotelRoomEntity;
-import com.example.travelagency.entities.ReservationEntity;
 import com.example.travelagency.enums.HotelRoomTypeEnum;
+import com.example.travelagency.entities.HotelRoomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

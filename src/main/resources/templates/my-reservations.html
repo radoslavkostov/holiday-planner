@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+  Navbar
+</div>
+<div th:each="r : ${reservations}" th:object="${r}" class="card mt-5">
+  <div class="card-body">
+    <p class="card-text" th:text="*{adultsCount}"></p>
+    <p class="card-text" th:text="*{childrenCount}"></p>
+    <p class="card-text" th:text="*{startDate}"></p>
+    <p class="card-text" th:text="*{endDate}"></p>
+    <a th:href="@{/reservations/{id}(id=*{id})}">
+      Details
+    </a>
+  </div>
+</div>
+<div class="container text-white" th:if="${reservations.isEmpty()}">
+  You don't have any reservations yet.
+</div>
+</body>
+</html>

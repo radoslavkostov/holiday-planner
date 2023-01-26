@@ -20,5 +20,8 @@
   </div>
   <div th:text="*{longDescription}"></div>
 </div>
+<div class="container mt-5">
+  <a class="text-primary" th:href="@{/hotels(name=${destination.name})}">See all hotels in this destination</a>
+</div>
 </body>
 </html>

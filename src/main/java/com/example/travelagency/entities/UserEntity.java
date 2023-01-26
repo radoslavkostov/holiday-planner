@@ -1,6 +1,5 @@
 package com.example.travelagency.entities;
 
-import jdk.jfr.Enabled;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -90,4 +89,13 @@ public class UserEntity extends BaseEntity{
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

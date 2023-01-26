@@ -20,4 +20,9 @@ public class FavoriteEntity extends BaseEntity{
     @ManyToOne
     private TravelDestinationEntity travelDestination;
 
+    @Override
+    public String toString() {
+        return "FavoriteEntity{" +
+                '}';
+    }
 }

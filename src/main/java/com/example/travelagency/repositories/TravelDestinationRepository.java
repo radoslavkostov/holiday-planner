@@ -1,6 +1,5 @@
 package com.example.travelagency.repositories;
 
-import com.example.travelagency.entities.FavoriteEntity;
 import com.example.travelagency.entities.TravelDestinationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +21,8 @@ public interface TravelDestinationRepository extends JpaRepository<TravelDestina
 
     @Query(value = "select d from TravelDestinationEntity d join FavoriteEntity f on d.id=f.travelDestination.id group by d.id order by count(f.id) desc")
     List<TravelDestinationEntity> findTopFavoriteDestinations();
+
+    @Query(value = "select d from TravelDestinationEntity d join FavoriteEntity f on d.id=f.travelDestination.id join UserEntity u on f.user.id=u.id where u.id = :userId")
+    List<TravelDestinationEntity> findByUserId(@Param("userId") Long userId);
 
 }
