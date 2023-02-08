@@ -6,16 +6,39 @@
 <div th:replace="fragments/navbar::navbar">
   Navbar
 </div>
-<div th:each="f : ${favorites}" th:object="${f}" class="card mt-5">
-  <div class="card-header" th:text="*{name}">
+<div class="container text-center text-white mt-5">
+  <div style="font-size: 2rem">
+    Favorite Destinations
   </div>
-  <div class="card-body">
-    <p class="card-text" th:text="*{shortDescription}"></p>
-    <a th:href="@{/destinations/{id}(id=*{id})}">
-      Details
-    </a>
+  <div th:if="${!favorites.isEmpty()}" style="font-size: 1.4rem" class="mt-4">
+    You have <span th:text="*{favorites.size()}"></span> favorite travel destinations:
   </div>
 </div>
+<div class="container">
+  <div class="row" style="display: flex;
+  justify-content: center;">
+    <div th:each="f : ${favorites}" th:object="${f}"  class="card m-3"
+         style="width: 18rem; border: #494949 solid 2px; color: #343a40; border-radius: 8px;">
+      <img th:src="*{imageURL}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title" th:text="*{name}">Card title</h5>
+        <p class="card-text" th:text="*{shortDescription}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a th:href="@{/destinations/{id}(id = *{id})}" class="btn btn-primary">Read more</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div th:each="f : ${favorites}" th:object="${f}" class="card mt-5">-->
+<!--  <div class="card-header" th:text="*{name}">-->
+<!--  </div>-->
+<!--  <div class="card-body">-->
+<!--    <p class="card-text" th:text="*{shortDescription}"></p>-->
+<!--    <a th:href="@{/destinations/{id}(id=*{id})}">-->
+<!--      Details-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</div>-->
 <div class="container text-white">
   <th:block th:if="${favorites.isEmpty()}">You don't have any favorite destinations yet. <a th:href="@{/destinations}" class="text-primary">Try exploring!</a></th:block>
 </div>

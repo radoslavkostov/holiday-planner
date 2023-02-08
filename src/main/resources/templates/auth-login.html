@@ -10,8 +10,8 @@
   Navbar
 </div>
 
-<div class="container">
-  <h2 class="text-center text-white">Login</h2>
+<div class="container mt-5">
+  <h2 class="text-center text-white mb-4">Login</h2>
   <form th:method="post"
         th:action="@{/users/login}"
         class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
@@ -39,14 +39,14 @@
       Invalid username or password.
     </p>
 
-    <div class="row">
+    <div class="row mt-1">
       <div class="col col-md-4">
         <div class="button-holder d-flex">
-          <input type="submit" class="btn btn-info btn-lg" value="Login"/>
+          <input type="submit" class="btn btn-primary btn-lg" value="Login"/>
         </div>
       </div>
     </div>
-    <div class="row"><a th:href="@{/users/register}" class="text-primary">Don't have an account?</a></div>
+    <div class="mt-2"><a th:href="@{/users/register}" class="text-info">Don't have an account?</a></div>
   </form>
 </div>
 

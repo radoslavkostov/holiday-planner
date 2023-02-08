@@ -23,10 +23,12 @@ public class ReservationAddBindingModel {
     @NotNull(message = "Choose room type.")
     private HotelRoomTypeEnum type;
 
+    @NotNull(message = "No date chosen.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Date cannot be in the past.")
     private LocalDate startDate;
 
+    @NotNull(message = "No date chosen.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Date cannot be in the past.")
     private LocalDate endDate;

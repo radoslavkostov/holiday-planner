@@ -12,5 +12,6 @@ public class ArticleViewModel {
     private String name;
     private String shortDescription;
     private String content;
+    private String imageURL;
 
 }

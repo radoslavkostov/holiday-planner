@@ -6,22 +6,74 @@
 <div th:replace="fragments/navbar::navbar">
   Navbar
 </div>
-<div th:object="${destination}" class="container text-white">
-  <div class="row align-items-center">
-    <h3 th:text="*{name}" class="ml-3 mr-3"></h3>
+<div th:object="${destination}" class="container text-white mt-5">
+  <div class="flex row align-items-center" style="position: relative">
+    <h3 th:text="*{name}" class="ml-3 mr-3" style="font-size: 2rem; position: relative"></h3>
     <span>
-      <a th:if="${!isFavorite}" th:href="@{/favor/{id}(id = *{id})}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart" viewBox="0 0 16 16">
+      <a class="favor-btn" th:if="${!isFavorite}" th:href="@{/favor/{id}(id = *{id})}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-heart" viewBox="0 0 16 16">
   <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 </svg></a>
-      <a th:if="${isFavorite}" th:href="@{/disfavor/{id}(id = *{id})}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+      <a class="disfavor-btn" th:if="${isFavorite}" th:href="@{/disfavor/{id}(id = *{id})}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
 </svg></a>
     </span>
   </div>
-  <div th:text="*{longDescription}"></div>
+  <div class="mt-1 destination-description" th:text="*{longDescription}"></div>
+  <div class="mt-3">
+    <a class="discover-hotels" th:href="@{/hotels(name=${destination.name})}">Discover hotels in this location</a>
+  </div>
+  <div class="carousel">
+    <div class="slides">
+      <img src="https://planetofhotels.com/guide/sites/default/files/styles/paragraph__live_banner__lb_image__1880bp/public/live_banner/sofia-1.jpg" alt="Image 1">
+      <img src="https://res.klook.com/image/upload/Mobile/City/afmqgg5h0jl9wnr1dfmf.jpg" alt="Image 2">
+      <img src="https://a.cdn-hotels.com/gdcs/production143/d1112/c4fedab1-4041-4db5-9245-97439472cf2c.jpg" alt="Image 3">
+    </div>
+  </div>
 </div>
-<div class="container mt-5">
-  <a class="text-primary" th:href="@{/hotels(name=${destination.name})}">See all hotels in this destination</a>
-</div>
+
+<script>
+  document.querySelector('.disfavor-btn').addEventListener('mousemove', function(e) {
+    let text = document.querySelector('.disfavor-btn:hover:after');
+    text.style.top = (e.pageY) + 'px';
+    text.style.left = (e.pageX) + 'px';
+  });
+  document.querySelector('.favor-btn').addEventListener('mousemove', function(e) {
+    let text = document.querySelector('.favor-btn:hover:after');
+    text.style.top = (e.pageY) + 'px';
+    text.style.left = (e.pageX) + 'px';
+  });
+  // let index = 0;
+  //
+  // function slide() {
+  //   let slides = document.getElementsByClassName("slides")[0];
+  //   index++;
+  //   if (index >= slides.childElementCount) {
+  //     index = 0;
+  //   }
+  //   slides.style.transform = "translateX(-" + 500 * index + "px)";
+  // }
+  //
+  // setInterval(slide, 5000);
+  // let index = 0;
+  // let slides = document.getElementsByClassName("slides")[0];
+  // let prevBtn = document.getElementById("prevBtn");
+  // let nextBtn = document.getElementById("nextBtn");
+  //
+  // prevBtn.addEventListener("click", function() {
+  //   index--;
+  //   if (index < 0) {
+  //     index = slides.childElementCount - 1;
+  //   }
+  //   slides.style.transform = "translateX(-" + 20 * index + "rem)";
+  // });
+  //
+  // nextBtn.addEventListener("click", function() {
+  //   index++;
+  //   if (index >= slides.childElementCount) {
+  //     index = 0;
+  //   }
+  //   slides.style.transform = "translateX(-" + 20 * index + "rem)";
+  // });
+</script>
 </body>
 </html>

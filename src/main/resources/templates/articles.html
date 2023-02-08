@@ -10,10 +10,11 @@
   Navbar
 </div>
 
-<div class="container">
+<div class="container mt-5">
+  <div class="text-center text-white mt-5 mb-4" style="font-size: 2rem; text-shadow: 0px 0px 11px rgba(0,0,0,0.5);">Articles</div>
   <div class="row">
-    <div th:each="a : ${articles}" th:object="${a}" class="card" style="width: 18rem;">
-      <img src="https://i.stack.imgur.com/l60Hf.png" class="card-img-top">
+    <div th:each="a : ${articles}" th:object="${a}" class="card m-3" style="width: 18rem; color: #343a40; border: #494949 solid 2px; border-radius: 8px">
+      <img th:src="*{imageURL}" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title" th:text="*{name}">Card title</h5>
         <p class="card-text" th:text="*{shortDescription}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

@@ -8,6 +8,7 @@ import com.example.travelagency.repositories.ReservationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,8 +49,14 @@ public class ReservationService {
         return false;
     }
 
-    public List<ReservationViewModel> findByUserId(Long id) {
-        return reservationRepository.findByUserId(id).stream()
+    public List<ReservationViewModel> findActiveByUserId(Long id) {
+        return reservationRepository.findActiveByUserId(id, LocalDate.now()).stream()
+                .map(reservationEntity -> modelMapper.map(reservationEntity, ReservationViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ReservationViewModel> findExpiredByUserId(Long id) {
+        return reservationRepository.findExpiredByUserId(id, LocalDate.now()).stream()
                 .map(reservationEntity -> modelMapper.map(reservationEntity, ReservationViewModel.class))
                 .collect(Collectors.toList());
     }

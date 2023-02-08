@@ -3,13 +3,26 @@ package com.example.travelagency.models.binding;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
 @Data
 @NoArgsConstructor
 public class UserRegisterBindingModel {
 
+    @Size(min = 1, max = 20, message = "First name should be between 1 and 20 characters.")
     private String firstName;
+
+    @Size(min = 1, max = 20, message = "Last name should be between 1 and 20 characters.")
     private String lastName;
+
+    @Size(min = 1, max = 20, message = "Password should be at least 8 characters.")
     private String password;
+
+    private String confirmPassword;
+
+    @Email(message = "Not a valid email format.")
+    @Size(min = 3, message = "Not a valid email format.")
     private String email;
 
     public String getFirstName() {

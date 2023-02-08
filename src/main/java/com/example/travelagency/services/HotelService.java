@@ -55,7 +55,7 @@ public class HotelService {
 //    }
     @Transactional
     public List<HotelViewModel> searchHotels(HotelServiceModel hotelServiceModel) {
-        List<HotelEntity> hotelEntities = hotelRepository.searchHotels(hotelServiceModel.getName());
+        List<HotelEntity> hotelEntities = hotelRepository.searchHotels(hotelServiceModel.getName().toLowerCase(), hotelServiceModel.getName().toLowerCase());
         hotelEntities.forEach(hotelEntity -> {Hibernate.initialize(hotelEntity.getRooms());
         Hibernate.initialize(hotelEntity.getRatings());
         });

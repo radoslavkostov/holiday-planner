@@ -13,6 +13,7 @@ import java.util.List;
 public class TravelDestinationEntity extends BaseEntity {
 
     private String name;
+    private String imageURL;
     private String shortDescription;
     @Column(columnDefinition = "TEXT")
     private String longDescription;
@@ -22,6 +23,12 @@ public class TravelDestinationEntity extends BaseEntity {
     private List<FavoriteEntity> favorites;
 
     public TravelDestinationEntity() {
+    }
+
+    public TravelDestinationEntity(String name, String shortDescription, String longDescription) {
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
     }
 
     public void addHotel(HotelEntity hotel){

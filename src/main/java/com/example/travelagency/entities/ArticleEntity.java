@@ -19,6 +19,7 @@ public class ArticleEntity extends BaseEntity {
     private String shortDescription;
     @Column(columnDefinition = "TEXT")
     private String content;
+    private String imageURL;
 
     @Override
     public String toString() {

@@ -7,10 +7,15 @@
   Navbar
 </div>
 
-<div class="container">
-  <h3 class="text-white text-center" th:text="${currentUser.email}"></h3>
-  <p class="text-white text-center" th:text="${currentUser.firstName+' '+currentUser.lastName}"></p>
-  <div>
+<div class="container" style="font-size: 1.4rem; margin-bottom: 8rem">
+  <div class="text-white text-center mt-5" style="font-size: 2rem; margin-bottom: 4rem; text-shadow: 0px 0px 11px rgba(0,0,0,0.5);">User Details</div>
+  <div class="text-white mb-2">Email: <span th:text="${currentUser.email}"></span></div>
+  <div class="text-white mb-2">First name: <span th:text="${currentUser.firstName}"></span></div>
+  <div class="text-white mb-2">Last name: <span th:text="${currentUser.lastName}"></span></div>
+</div>
+<div class="container mt-5 my-profile-links-container" style="border-top: white solid 2px;">
+  <div class="text-white" style="font-size: 1.6rem; text-align: center; width: 60%; margin: auto">Browse through your favorite travel destinations, hotels and past or current reservations!</div>
+  <div class="mt-5">
     <a th:href="@{/my-favorites}">Favorite Travel Destinations</a>
   </div>
   <div class="mt-3">

@@ -16,6 +16,8 @@ public class HotelEntity extends BaseEntity {
 
     private String name;
 
+    private String imageURL;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

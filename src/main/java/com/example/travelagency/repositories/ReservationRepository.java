@@ -15,5 +15,10 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     @Query(value = "select r from ReservationEntity r join HotelRoomEntity hr on hr.id=r.hotelRoom.id where hr.id=:roomId and r.startDate<=:endDate and r.endDate>=:startDate")
     List<ReservationEntity> reservationValidityCheck(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("roomId") Long roomId);
 
-    List<ReservationEntity> findByUserId(Long user_id);
+    @Query(value = "select r from ReservationEntity r join UserEntity u on r.user.id=u.id where r.endDate<:currentDate and u.id=:userId order by r.startDate")
+    List<ReservationEntity> findExpiredByUserId(@Param("userId") Long userId, @Param("currentDate") LocalDate currentDate);
+
+    @Query(value = "select r from ReservationEntity r join UserEntity u on r.user.id=u.id where r.endDate>=:currentDate and u.id=:userId order by r.startDate")
+    List<ReservationEntity> findActiveByUserId(@Param("userId") Long userId, @Param("currentDate") LocalDate currentDate);
+
 }

@@ -2,15 +2,21 @@ package com.example.travelagency.web;
 
 import com.example.travelagency.models.binding.UserRegisterBindingModel;
 import com.example.travelagency.models.service.UserServiceModel;
-import com.example.travelagency.services.*;
+import com.example.travelagency.services.HotelService;
+import com.example.travelagency.services.ReservationService;
+import com.example.travelagency.services.TravelDestinationService;
+import com.example.travelagency.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -27,6 +33,14 @@ public class UserController {
         this.travelDestinationService = travelDestinationService;
         this.hotelService = hotelService;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/")
+    public String home(){
+        if(userService.getCurrentUser()!=null){
+            return "redirect:/destinations";
+        }
+        else return "/index";
     }
 
     @GetMapping("/my-profile")
@@ -52,7 +66,8 @@ public class UserController {
     @GetMapping("my-reservations")
     public String reservations(Model model){
 
-        model.addAttribute("reservations", reservationService.findByUserId(userService.getCurrentUser().getId()));
+        model.addAttribute("activeReservations", reservationService.findActiveByUserId(userService.getCurrentUser().getId()));
+        model.addAttribute("expiredReservations", reservationService.findExpiredByUserId(userService.getCurrentUser().getId()));
 
         return "/my-reservations";
     }
@@ -63,8 +78,14 @@ public class UserController {
     }
 
     @PostMapping("/users/register")
-    public String register(UserRegisterBindingModel userRegisterBindingModel) {
+    public String register(@Valid UserRegisterBindingModel userRegisterBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        if(bindingResult.hasErrors()||!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())){
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
+
+            return "redirect:/users/register";
+        }
         userService.registerAndLogin(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
         return "redirect:/";
     }
@@ -85,5 +106,10 @@ public class UserController {
                 true);
 
         return "redirect:/users/login";
+    }
+
+    @ModelAttribute
+    public UserRegisterBindingModel userRegisterBindingModel(){
+        return new UserRegisterBindingModel();
     }
 }

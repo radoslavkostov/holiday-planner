@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class HotelViewModel {
     private Long id;
+    private String imageURL;
     private String name;
     private String description;
     private String shortDescription;

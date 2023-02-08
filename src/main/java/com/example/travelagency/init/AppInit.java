@@ -26,10 +26,10 @@ public class AppInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         userService.init();
-        hotelService.init();
-        hotelRoomService.init();
-        articleService.init();
-        travelDestinationService.init();
-        forumService.init();
+//        hotelService.init();
+//        hotelRoomService.init();
+//        articleService.init();
+//        travelDestinationService.init();
+//        forumService.init();
     }
 }

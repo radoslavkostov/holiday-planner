@@ -6,19 +6,78 @@
 <div th:replace="fragments/navbar::navbar">
   Navbar
 </div>
-<div th:each="r : ${reservations}" th:object="${r}" class="card mt-5">
-  <div class="card-body">
-    <p class="card-text" th:text="*{adultsCount}"></p>
-    <p class="card-text" th:text="*{childrenCount}"></p>
-    <p class="card-text" th:text="*{startDate}"></p>
-    <p class="card-text" th:text="*{endDate}"></p>
-    <a th:href="@{/reservations/{id}(id=*{id})}">
-      Details
-    </a>
+<div class="container text-center text-white mt-5">
+  <div style="font-size: 2rem">
+    My Reservations
   </div>
 </div>
-<div class="container text-white" th:if="${reservations.isEmpty()}">
-  You don't have any reservations yet.
+<div class="text-center text-white" style="font-size: 1.5rem; margin-top: 4em">
+  Active Reservations:
 </div>
+<div class="container" style="color: #343a40; border-bottom: white solid 2px; padding-bottom: 6em">
+  <div class="row" style="display: flex;
+  justify-content: center;">
+    <div th:each="r : ${activeReservations}" th:object="${r}" class="card mt-5 mx-3" style="width: 40%">
+      <div class="card-body">
+        <div class="mb-2">
+          <span style="font-weight: bold">Hotel: </span>
+          <a class="my-reservations-hotel-link text-info" th:text="*{hotelRoom.getHotel().getName()}" th:href="@{/hotels/{id}(id=*{getHotelRoom().getHotel().getId()})}"></a>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">From: </span>
+          <span th:text="*{startDate}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">To: </span>
+          <span th:text="*{endDate}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">Adult count: </span>
+          <span th:text="*{adultsCount}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">Children count: </span>
+          <span th:text="*{childrenCount}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center text-white" style="font-size: 1.5rem; margin-top: 4em">
+  Expired Reservations:
+</div>
+<div class="container mb-5" style="color: #343a40;">
+  <div class="row" style="display: flex;
+  justify-content: center;">
+    <div th:each="r : ${expiredReservations}" th:object="${r}" class="card mt-5 mx-3" style="width: 40%">
+      <div class="card-body">
+        <div class="mb-2">
+          <span style="font-weight: bold">Hotel: </span>
+          <a class="my-reservations-hotel-link text-info" th:text="*{hotelRoom.getHotel().getName()}" th:href="@{/hotels/{id}(id=*{getHotelRoom().getHotel().getId()})}"></a>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">From: </span>
+          <span th:text="*{startDate}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">To: </span>
+          <span th:text="*{endDate}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">Adult count: </span>
+          <span th:text="*{adultsCount}"></span>
+        </div>
+        <div class="mb-2">
+          <span style="font-weight: bold">Children count: </span>
+          <span th:text="*{childrenCount}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="container text-white" th:if="${reservations.isEmpty()}">-->
+<!--  You don't have any reservations yet.-->
+<!--</div>-->
 </body>
 </html>
