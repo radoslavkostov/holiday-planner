@@ -4,6 +4,7 @@ import com.example.travelagency.entities.ForumEntity;
 import com.example.travelagency.entities.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -14,5 +15,6 @@ public class CommentViewModel {
     private String content;
     private UserEntity user;
     private ForumEntity forum;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timePosted;
 }

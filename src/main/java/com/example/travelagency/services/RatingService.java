@@ -53,11 +53,6 @@ public class RatingService {
         return ratingRepository.findAverageRating(id);
     }
 
-    public List<RatingViewModel> findByUserId(Long id) {
-        return ratingRepository.findByUserId(id).stream()
-                .map(ratingEntity -> modelMapper.map(ratingEntity, RatingViewModel.class)).collect(Collectors.toList());
-    }
-
     public RatingViewModel findByUserIdAndHotelId(Long hotelId) {
         return ratingRepository.findByUserIdAndHotelId(userService.getCurrentUser().getId(), hotelId)
                 .map(ratingEntity -> modelMapper.map(ratingEntity, RatingViewModel.class)).orElse(new RatingViewModel().setReview("").setValue(1));

@@ -23,36 +23,13 @@ public class HotelService {
         this.modelMapper = modelMapper;
     }
 
-    public void init(){
-        if(hotelRepository.count()==0){
-            HotelEntity hotelOne = new HotelEntity();
-            hotelOne.setName("Hotel One");
-            HotelEntity hotelTwo = new HotelEntity();
-            hotelTwo.setName("Hotel Two");
-
-            hotelRepository.save(hotelOne);
-            hotelRepository.save(hotelTwo);
-        }
-    }
-
-    public HotelEntity findByName(String name){
-        return hotelRepository.findByName(name).orElse(null);
-    }
-
-    public List<HotelEntity> getHotels(){
-        return hotelRepository.findAll();
-    }
-
     @Transactional
     public List<HotelViewModel> getHotelsByDestination(String travelDestinationName) {
         return hotelRepository.findByTravelDestination(travelDestinationName).stream()
                 .map(hotelEntity -> modelMapper.map(hotelEntity, HotelViewModel.class)).collect(Collectors.toList());
     }
 
-//    public List<HotelViewModel> searchHotels(HotelServiceModel hotelServiceModel) {
-//        return hotelRepository.searchHotels(hotelServiceModel.getName()).stream()
-//                .map(hotelEntity -> modelMapper.map(hotelEntity, HotelViewModel.class)).collect(Collectors.toList());
-//    }
+
     @Transactional
     public List<HotelViewModel> searchHotels(HotelServiceModel hotelServiceModel) {
         List<HotelEntity> hotelEntities = hotelRepository.searchHotels(hotelServiceModel.getName().toLowerCase(), hotelServiceModel.getName().toLowerCase());
@@ -64,10 +41,6 @@ public class HotelService {
     }
 
 
-//    public HotelViewModel findById(Long id) {
-//        return hotelRepository.findById(id).map(hotelEntity -> modelMapper.map(hotelEntity, HotelViewModel.class))
-//                .orElse(null);
-//    }
     @Transactional
     public HotelViewModel findById(Long id) {
         HotelEntity hotelEntity = hotelRepository.findById(id).orElse(null);

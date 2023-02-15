@@ -42,6 +42,9 @@
       </div>
     </div>
   </div>
+  <div class="text-white" style="font-size: 1.2rem">
+    <th:block th:if="${activeReservations.isEmpty()}">You have no active reservations. <a th:href="@{/choose-destination}" class="text-info">Try exploring!</a></th:block>
+  </div>
 </div>
 
 <div class="text-center text-white" style="font-size: 1.5rem; margin-top: 4em">

@@ -2,7 +2,6 @@ package com.example.travelagency.services;
 
 import com.example.travelagency.entities.CommentEntity;
 import com.example.travelagency.entities.ForumEntity;
-import com.example.travelagency.entities.UserEntity;
 import com.example.travelagency.models.service.CommentServiceModel;
 import com.example.travelagency.models.view.CommentViewModel;
 import com.example.travelagency.repositories.CommentRepository;
@@ -39,4 +38,16 @@ public class CommentService {
         commentEntity.setForum(modelMapper.map(forumService.getForumById(forumId), ForumEntity.class));
         commentRepository.save(commentEntity);
     }
+
+    public Long deleteComment(Long id) {
+        CommentEntity commentEntity = commentRepository.findById(id).orElse(null);
+        if(commentEntity==null){
+            return -1L;
+        }
+        Long forumId = commentEntity.getForum().getId();
+        commentRepository.delete(commentEntity);
+
+        return forumId;
+    }
+
 }

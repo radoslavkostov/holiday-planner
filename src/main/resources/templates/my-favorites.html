@@ -39,8 +39,8 @@
 <!--    </a>-->
 <!--  </div>-->
 <!--</div>-->
-<div class="container text-white">
-  <th:block th:if="${favorites.isEmpty()}">You don't have any favorite destinations yet. <a th:href="@{/destinations}" class="text-primary">Try exploring!</a></th:block>
+<div class="container text-white" style="font-size: 1.2rem">
+  <th:block th:if="${favorites.isEmpty()}">You don't have any favorite destinations yet. <a th:href="@{/destinations}" class="text-info">Try exploring!</a></th:block>
 </div>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.example.travelagency.entities.UserEntity;
 import com.example.travelagency.entities.UserRoleEntity;
 import com.example.travelagency.enums.UserRoleEnum;
 import com.example.travelagency.models.service.UserServiceModel;
+import com.example.travelagency.models.view.UserViewModel;
 import com.example.travelagency.repositories.UserRepository;
 import com.example.travelagency.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -16,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -25,16 +28,18 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService appUserDetailsService;
+    private final UserRoleService userRoleService;
     private final ModelMapper modelMapper;
     private String adminPass;
 
     public UserService(UserRepository userRepository,
                        UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder,
-                       UserDetailsService appUserDetailsService, ModelMapper modelMapper, @Value("${app.default.admin.password}") String adminPass) {
+                       UserDetailsService appUserDetailsService, UserRoleService userRoleService, ModelMapper modelMapper, @Value("${app.default.admin.password}") String adminPass) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.appUserDetailsService = appUserDetailsService;
+        this.userRoleService = userRoleService;
         this.modelMapper = modelMapper;
         this.adminPass = adminPass;
     }
@@ -114,7 +119,47 @@ public class UserService {
         return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
     }
 
-    public UserEntity findByEmail(String email){
-        return userRepository.findByEmail(email).orElse(null);
+    public boolean hasRole(String role, Long id){
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity==null){
+            return false;
+        }
+        List<UserRoleEntity> userRoles = userEntity.getUserRoles();
+
+        for (UserRoleEntity userRole : userRoles) {
+            if(userRole.getUserRole().toString().equals(role)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Transactional
+    public List<UserViewModel> findByEmail(UserServiceModel userServiceModel){
+        return userRepository.findAllByEmail(userServiceModel.getEmail()).stream().map(userEntity -> modelMapper.map(userEntity, UserViewModel.class)).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserViewModel findById(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        return modelMapper.map(userEntity, UserViewModel.class);
+    }
+
+    public void revokeMod(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity==null){
+            return;
+        }
+        userEntity.getUserRoles().removeIf(userRole -> userRole.getUserRole().toString().equals("MODERATOR"));
+        userRepository.save(userEntity);
+    }
+
+    public void grantMod(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity==null){
+            return;
+        }
+        userEntity.getUserRoles().add(userRoleService.findByUserRole(UserRoleEnum.MODERATOR));
+        userRepository.save(userEntity);
     }
 }

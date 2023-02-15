@@ -28,6 +28,7 @@ public class TravelDestinationController {
         this.modelMapper = modelMapper;
     }
 
+
     @GetMapping("/destinations")
     public String destinations(Model model){
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<div th:replace="fragments/navbar::navbar">
+    Navbar
+</div>
+<div class="container" style="font-size: 1.4rem; margin-bottom: 8rem">
+    <div class="text-white text-center mt-5" style="font-size: 2rem; margin-bottom: 4rem; text-shadow: 0px 0px 11px rgba(0,0,0,0.5);">User Details</div>
+    <div class="text-white mb-3">Email: <span th:text="${user.email}"></span></div>
+    <div class="text-white mb-3">First name: <span th:text="${user.firstName}"></span></div>
+    <div class="text-white mb-3">Last name: <span th:text="${user.lastName}"></span></div>
+    <div class="text-white mb-3">Roles: <span th:each="r : ${user.userRoles}" th:object="${r}"><span class="mr-2 p-1 bg-primary" style="border-radius: 4px" th:text="*{userRole}"></span></span></div>
+    <a th:if="${!isModerator}" th:href="@{/grant-mod/{id}(id=*{id})}" class="btn btn-success mb-3">Grant moderator role</a>
+    <a th:if="${isModerator}" th:href="@{/revoke-mod/{id}(id=*{id})}" class="btn btn-danger">Revoke moderator role</a>
+</div>
+</body>
+</html>

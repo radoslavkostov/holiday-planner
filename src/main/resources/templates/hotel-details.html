@@ -65,9 +65,7 @@
           </div>
       </div>
   </form>
-    <div class="text-white mt-5 mb-4" style="font-size: 1.3rem">
-        <span th:text="*{ratingsCount}"></span><span> reviews with an average rating: </span><span th:text="*{averageRating}"></span>
-    </div>
+    <div id="reviews-info-container" class="text-white mt-5 mb-4" style="font-size: 1.3rem"></div>
     <div th:each="r : ${ratings}" th:object="${r}" class="mb-5">
         <div class="card" style="width: 18rem; color: #343a40">
             <div class="card-body">
@@ -79,6 +77,43 @@
     </div>
 </div>
 <script>
+    let currentUrl = window.location.href;
+    let hotelId = currentUrl.substr(currentUrl.lastIndexOf('/')+1);
+    let fetchAddress = 'http://localhost:8080/ratings-info/'+hotelId;
+    function updateReviewInfo() {
+        fetch(fetchAddress, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(res => res.json())
+            .then(ratingInfo => {
+                let reviewsInfoContainer = document.getElementById('reviews-info-container');
+                reviewsInfoContainer.innerHTML='';
+                let ratingsCount = ratingInfo[0];
+                if(ratingInfo[1]===null){
+                    let noReviewsSpan = document.createElement('span');
+                    noReviewsSpan.textContent="Hotel hasn't been reviewed yet.";
+                    reviewsInfoContainer.appendChild(noReviewsSpan);
+                }
+                else{
+                    let averageRating = ratingInfo[1].toFixed(1);
+                    let ratingsCountSpan = document.createElement('span');
+                    ratingsCountSpan.textContent=ratingsCount;
+                    let averageRatingSpan = document.createElement('span');
+                    averageRatingSpan.textContent=averageRating;
+                    let middleSpan = document.createElement('span');
+                    middleSpan.textContent=" reviews with an average rating: "
+                    reviewsInfoContainer.appendChild(ratingsCountSpan);
+                    reviewsInfoContainer.appendChild(middleSpan);
+                    reviewsInfoContainer.appendChild(averageRatingSpan);
+                }
+            })
+            .catch(error => console.error(error));
+    }
+    updateReviewInfo();
+    setInterval(updateReviewInfo, 10000);
+
     if (document.getElementById("show-review-form")!=null) {
         document.getElementById("show-review-form").addEventListener("click", function () {
             document.getElementById("show-review-form").parentElement.style.display = "none";

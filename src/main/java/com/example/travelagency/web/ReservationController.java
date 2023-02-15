@@ -6,7 +6,6 @@ import com.example.travelagency.models.service.ReservationServiceModel;
 import com.example.travelagency.models.service.TravelDestinationServiceModel;
 import com.example.travelagency.services.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,16 +23,12 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final TravelDestinationService travelDestinationService;
     private final HotelService hotelService;
-    private final HotelRoomService hotelRoomService;
-    private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public ReservationController(ReservationService reservationService, TravelDestinationService travelDestinationService, HotelService hotelService, HotelRoomService hotelRoomService, UserService userService, ModelMapper modelMapper) {
+    public ReservationController(ReservationService reservationService, TravelDestinationService travelDestinationService, HotelService hotelService, ModelMapper modelMapper) {
         this.reservationService = reservationService;
         this.travelDestinationService = travelDestinationService;
         this.hotelService = hotelService;
-        this.hotelRoomService = hotelRoomService;
-        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
@@ -104,17 +99,16 @@ public class ReservationController {
     public String success(){
         return "successful-reservation";
     }
-
-
-    @PreAuthorize("@reservationService.isOwner(#principal.username, #id)")
-    @GetMapping("/delete-reservation/{id}")
-    public String deleteReservation(
-            @PathVariable("id") Long id) {
-        reservationService.deleteById(id);
-
-        return "redirect:/my-reservations";
-    }
-
+//
+//
+//    @PreAuthorize("@reservationService.isOwner(#principal.username, #id)")
+//    @GetMapping("/delete-reservation/{id}")
+//    public String deleteReservation(
+//            @PathVariable("id") Long id) {
+//        reservationService.deleteById(id);
+//
+//        return "redirect:/my-reservations";
+//    }
 
     @ModelAttribute
     public ReservationAddBindingModel reservationAddBindingModel(){
