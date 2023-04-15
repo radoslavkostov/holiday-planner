@@ -22,7 +22,7 @@
           <div style="display: inline"><label for="type" class="mr-1">Room type</label>
               <select th:field="*{type}" id="type" name="type">
                   <!--      <option value="" selected>Type</option>-->
-                  <option th:each="t : ${T(com.example.travelagency.enums.HotelRoomTypeEnum).values()}" th:value="${t}" th:text="${t}"></option>
+                  <option th:each="t : ${T(com.example.holidayplanner.enums.HotelRoomTypeEnum).values()}" th:value="${t}" th:text="${t}"></option>
               </select></div>
       </div>
 
