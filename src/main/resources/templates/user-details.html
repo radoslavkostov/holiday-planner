@@ -12,8 +12,12 @@
     <div class="text-white mb-3">First name: <span th:text="${user.firstName}"></span></div>
     <div class="text-white mb-3">Last name: <span th:text="${user.lastName}"></span></div>
     <div class="text-white mb-3">Roles: <span th:each="r : ${user.userRoles}" th:object="${r}"><span class="mr-2 p-1 bg-primary" style="border-radius: 4px" th:text="*{userRole}"></span></span></div>
-    <a th:if="${!isModerator}" th:href="@{/grant-mod/{id}(id=*{id})}" class="btn btn-success mb-3">Grant moderator role</a>
-    <a th:if="${isModerator}" th:href="@{/revoke-mod/{id}(id=*{id})}" class="btn btn-danger">Revoke moderator role</a>
+    <form th:if="${!isModerator}" th:action="@{/grant-mod/{id}(id=*{id})}" th:method="POST">
+        <button type="submit" class="btn btn-success mb-3">Grant moderator role</button>
+    </form>
+    <form th:if="${isModerator}" th:action="@{/revoke-mod/{id}(id=*{id})}" th:method="DELETE">
+        <button type="submit" class="btn btn-danger mb-3">Revoke moderator role</button>
+    </form>
 </div>
 </body>
 </html>

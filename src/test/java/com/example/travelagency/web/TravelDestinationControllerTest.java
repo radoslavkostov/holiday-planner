@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -60,7 +61,7 @@ public class TravelDestinationControllerTest {
     void favorTest() throws Exception {
         Long destinationId = 1L;
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/favor/"+destinationId))
+                .perform(MockMvcRequestBuilders.post("/favor/"+destinationId).with(csrf()))
                 .andExpect(view().name("redirect:/destinations/"+destinationId));
     }
 
@@ -68,7 +69,7 @@ public class TravelDestinationControllerTest {
     void disfavorTest() throws Exception {
         Long destinationId = 1L;
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/disfavor/"+destinationId))
+                .perform(MockMvcRequestBuilders.delete("/disfavor/"+destinationId).with(csrf()))
                 .andExpect(view().name("redirect:/destinations/"+destinationId));
     }
 

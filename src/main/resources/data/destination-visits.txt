@@ -1,1 +1,18 @@
 Travel Destinations Traffic Records
+
+2023-04-13:
+Sofia - 115
+Rome - 14
+Bali - 11
+Barcelona - 15
+Berlin - 2
+Sydney - 1
+Cape Town - 1
+Tokyo - 1
+Buenos Aires - 1
+Cairo - 1
+Amsterdam - 1
+Mexico City - 1
+New York City - 1
+Hong Kong - 1
+Bangkok - 2

@@ -8,9 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -48,13 +46,13 @@ public class TravelDestinationController {
         return "destination-details";
     }
 
-    @GetMapping("/favor/{id}")
+    @PostMapping("/favor/{id}")
     public String favorite(@PathVariable Long id){
         favoriteService.favor(id);
         return "redirect:/destinations/"+id;
     }
 
-    @GetMapping("/disfavor/{id}")
+    @DeleteMapping("/disfavor/{id}")
     public String disfavor(@PathVariable Long id){
         favoriteService.disfavor(id);
         return "redirect:/destinations/"+id;

@@ -73,8 +73,19 @@ nav{
   /*right: 0;*/
   top: 55%;
   transform: translateY(-50%);
+  background-color: #525252;
+  border: none;
 }
-a.favor-btn:hover:after {
+.favor-btn>svg {
+  fill: red;
+}
+.favor-btn:hover {
+  cursor: pointer;
+}
+.favor-btn:focus{
+  outline: none;
+}
+.favor-btn:hover:after {
   content: "Add to favorites";
   position: absolute;
   /*pointer-events: none;*/
@@ -83,7 +94,7 @@ a.favor-btn:hover:after {
   background-color: #333;
   color: #fff;
   width: 9rem;
-  padding-left: 0.8em;
+  padding-left: 0.1em;
   padding-bottom: 0.1em;
   /*padding: 0.2em 0.5em;*/
   border-radius: 5px;
@@ -94,8 +105,19 @@ a.favor-btn:hover:after {
   /*right: 0;*/
   top: 55%;
   transform: translateY(-50%);
+  background-color: #525252;
+  border: none;
 }
-a.disfavor-btn:hover:after {
+.disfavor-btn>svg {
+  fill: red;
+}
+.disfavor-btn:hover {
+  cursor: pointer;
+}
+.disfavor-btn:focus{
+  outline: none;
+}
+.disfavor-btn:hover:after {
   content: "Remove from favorites";
   position: absolute;
   /*pointer-events: none;*/
@@ -104,7 +126,7 @@ a.disfavor-btn:hover:after {
   background-color: #333;
   color: #fff;
   width: 12rem;
-  padding-left: 0.6em;
+  padding-left: 0.1em;
   padding-bottom: 0.1em;
   /*padding: 0.2em 0.5em;*/
   border-radius: 5px;
@@ -333,4 +355,39 @@ form.main-form {
 
 .logged-user {
   color: white;
+}
+
+.delete-comment-btn {
+  background-color: white;
+  border: none;
+}
+.delete-comment-btn:focus {
+  outline: none;
+}
+.delete-comment-btn>svg {
+  fill: darkgrey;
+}
+.delete-comment-btn>svg:hover{
+  cursor: pointer;
+  fill: black;
+}
+
+.edit-username-btn {
+  background: none;
+  border: none;
+  margin-left: 1rem;
+}
+.edit-username-btn>svg {
+  fill: white;
+  margin-top: 0.5rem;
+}
+.edit-username-btn>svg:hover {
+  cursor: pointer;
+  fill: lightgray;
+}
+/*.edit-username-btn:hover {*/
+/*  cursor: pointer;*/
+/*}*/
+.edit-username-btn:focus {
+  outline: none;
 }

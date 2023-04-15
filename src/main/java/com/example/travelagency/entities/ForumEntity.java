@@ -18,6 +18,7 @@ import java.util.List;
 public class ForumEntity extends BaseEntity {
 
     private String name;
+    private String shortDescription;
     @OneToMany(mappedBy = "forum", fetch = FetchType.EAGER)
     private List<CommentEntity> comments;
 

@@ -52,14 +52,12 @@ public class UserController {
     @GetMapping("/my-favorites")
     public String myFavorites(Model model){
         model.addAttribute("favorites", travelDestinationService.findByUserId(userService.getCurrentUser().getId()));
-
         return "/my-favorites";
     }
 
     @GetMapping("/rated-hotels")
     public String rated(Model  model){
         model.addAttribute("ratedHotels", hotelService.findByUserId(userService.getCurrentUser().getId()));
-
         return "/rated-hotels";
     }
 
@@ -95,7 +93,6 @@ public class UserController {
         return "auth-login";
     }
 
-    // NOTE: This should be post mapping!
     @PostMapping("/users/login-error")
     public String onFailedLogin(
             @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String userName,

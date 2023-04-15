@@ -14,9 +14,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -112,17 +115,19 @@ public class AdminControllerTest {
     }
 
     @Test
+    @AutoConfigureMockMvc(addFilters = false)
     void grantMod_ShouldRedirectToIndexPageIfCurrentUserIsNotAdmin() throws Exception{
 
         UserEntity userEntity = new UserEntity();
         Long userId = 1L;
         userEntity.setId(userId);
+        userEntity.setUserRoles(new ArrayList<>());
         when(userService.getCurrentUser()).thenReturn(userEntity);
         when(userService.hasRole(anyString(), anyLong())).thenReturn(false);
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/grant-mod/"+userId))
+                        .post("/grant-mod/"+userId).with(csrf()))
                 .andExpect(view().name("redirect:/"));
     }
 
@@ -136,7 +141,7 @@ public class AdminControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/grant-mod/"+userId))
+                        .post("/grant-mod/"+userId).with(csrf()))
                 .andExpect(view().name("redirect:/user-details/"+userId));
 
     }
@@ -152,7 +157,7 @@ public class AdminControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/revoke-mod/"+userId))
+                        .delete("/revoke-mod/"+userId).with(csrf()))
                 .andExpect(view().name("redirect:/"));
     }
 
@@ -166,7 +171,7 @@ public class AdminControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/revoke-mod/"+userId))
+                        .delete("/revoke-mod/"+userId).with(csrf()))
                 .andExpect(view().name("redirect:/user-details/"+userId));
 
     }

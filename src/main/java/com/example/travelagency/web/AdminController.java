@@ -7,8 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -53,7 +55,7 @@ public class AdminController {
         return "user-details";
     }
 
-    @GetMapping("/grant-mod/{id}")
+    @PostMapping("/grant-mod/{id}")
     public String grantMod(@PathVariable Long id){
         if(!userService.hasRole("ADMIN", userService.getCurrentUser().getId())){
             return "redirect:/";
@@ -62,7 +64,7 @@ public class AdminController {
         return "redirect:/user-details/"+id;
     }
 
-    @GetMapping("/revoke-mod/{id}")
+    @DeleteMapping("/revoke-mod/{id}")
     public String revokeMod(@PathVariable Long id){
         if(!userService.hasRole("ADMIN", userService.getCurrentUser().getId())){
             return "redirect:/";

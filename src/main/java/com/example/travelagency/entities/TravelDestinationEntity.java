@@ -21,6 +21,8 @@ public class TravelDestinationEntity extends BaseEntity {
     private List<HotelEntity> hotels;
     @OneToMany(mappedBy = "travelDestination")
     private List<FavoriteEntity> favorites;
+    @OneToMany(mappedBy = "travelDestinationEntity")
+    private List<TravelDestinationImageEntity> images;
 
     public TravelDestinationEntity() {
     }

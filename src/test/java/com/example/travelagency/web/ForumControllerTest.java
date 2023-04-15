@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -96,7 +97,7 @@ public class ForumControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/delete-comment/"+commentId))
+                        .delete("/delete-comment/"+commentId).with(csrf()))
                 .andExpect(view().name("redirect:/"));
     }
 
@@ -113,7 +114,7 @@ public class ForumControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/delete-comment/"+commentId))
+                        .delete("/delete-comment/"+commentId).with(csrf()))
                 .andExpect(view().name("redirect:/forums/"+forumId));
     }
 

@@ -11,5 +11,6 @@ import java.util.List;
 public class ForumViewModel {
     private Long id;
     private String name;
+    private String shortDescription;
     private List<CommentEntity> comments;
 }
