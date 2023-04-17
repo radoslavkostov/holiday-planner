@@ -372,22 +372,38 @@ form.main-form {
   fill: black;
 }
 
-.edit-username-btn {
+#show-edit-username-form {
   background: none;
   border: none;
   margin-left: 1rem;
 }
-.edit-username-btn>svg {
+#show-edit-username-form>svg {
   fill: white;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
-.edit-username-btn>svg:hover {
+#show-edit-username-form>svg:hover {
   cursor: pointer;
   fill: lightgray;
 }
 /*.edit-username-btn:hover {*/
 /*  cursor: pointer;*/
 /*}*/
-.edit-username-btn:focus {
+#show-edit-username-form:focus {
   outline: none;
 }
+
+/*@media (max-width: 1383px) {*/
+/*  !*.navbar-container{*!*/
+/*  !*  margin-bottom: 180px;*!*/
+/*  !*}*!*/
+/*}*/
+/*@media (max-width: 991px) {*/
+/*  .navbar-container{*/
+/*    margin-bottom: 180px;*/
+/*  }*/
+/*}*/
+/*@media (max-width: 705px) {*/
+/*  .navbar-container{*/
+/*    margin-bottom: 220px;*/
+/*  }*/
+/*}*/

@@ -22,7 +22,7 @@ public class UserRegisterBindingModel {
     private String confirmPassword;
 
     @Email(message = "Not a valid email format.")
-    @Size(min = 3, message = "Not a valid email format.")
+    @Size(min = 3, max = 20, message = "Not a valid email format.")
     private String email;
 
     public String getFirstName() {

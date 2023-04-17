@@ -84,11 +84,6 @@ public class UserEntity extends BaseEntity{
         return this;
     }
 
-    public UserEntity addRole(UserRoleEntity userRole) {
-        this.userRoles.add(userRole);
-        return this;
-    }
-
     @Override
     public String toString() {
         return "UserEntity{" +

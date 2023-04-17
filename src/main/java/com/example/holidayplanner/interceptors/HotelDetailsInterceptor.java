@@ -1,6 +1,7 @@
 package com.example.holidayplanner.interceptors;
 
 import com.example.holidayplanner.services.DestinationVisitsService;
+import com.example.holidayplanner.services.HotelVisitsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -8,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class DestinationDetailsInterceptor implements HandlerInterceptor {
+public class HotelDetailsInterceptor implements HandlerInterceptor {
 
-    private final DestinationVisitsService destinationVisitsService;
+    private final HotelVisitsService hotelVisitsService;
 
-    public DestinationDetailsInterceptor(DestinationVisitsService destinationVisitsService) {
-        this.destinationVisitsService = destinationVisitsService;
+    public HotelDetailsInterceptor(HotelVisitsService hotelVisitsService) {
+        this.hotelVisitsService = hotelVisitsService;
     }
 
     @Override
@@ -22,7 +23,7 @@ public class DestinationDetailsInterceptor implements HandlerInterceptor {
         int lastSlashIndex = url.lastIndexOf("/");
         String idString = url.substring(lastSlashIndex + 1);
         Long id = Long.parseLong(idString);
-        destinationVisitsService.increaseVisitsCount(id);
+        hotelVisitsService.increaseVisitsCount(id);
         return true;
     }
 

@@ -3,6 +3,7 @@ package com.example.holidayplanner.services;
 import com.example.holidayplanner.entities.UserEntity;
 import com.example.holidayplanner.entities.UserRoleEntity;
 import com.example.holidayplanner.enums.UserRoleEnum;
+import com.example.holidayplanner.models.binding.UserEditBindingModel;
 import com.example.holidayplanner.models.service.UserServiceModel;
 import com.example.holidayplanner.models.view.UserViewModel;
 import com.example.holidayplanner.repositories.UserRepository;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -161,5 +164,20 @@ public class UserService {
         }
         userEntity.getUserRoles().add(userRoleService.findByUserRole(UserRoleEnum.MODERATOR));
         userRepository.save(userEntity);
+    }
+
+    public void editUsername(UserEditBindingModel userEditBindingModel, Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity==null){
+            return;
+        }
+        userEntity.setEmail(userEditBindingModel.getEmail());
+        userRepository.save(userEntity);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String updatedUsername = userEditBindingModel.getEmail(); // Replace with the updated username
+        Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(updatedUsername, authentication.getCredentials(), authentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
+
     }
 }

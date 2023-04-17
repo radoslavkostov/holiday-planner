@@ -33,10 +33,6 @@ public class TravelDestinationEntity extends BaseEntity {
         this.longDescription = longDescription;
     }
 
-    public void addHotel(HotelEntity hotel){
-        hotels.add(hotel);
-    }
-
     @Override
     public String toString() {
         return "TravelDestinationEntity{" +

@@ -32,7 +32,7 @@
     <div th:if="${!currentUserRating.review.isEmpty()}" class="text-white">
         <button id="show-edit-review-form">Edit my review</button>
     </div>
-  <form id="review-form" name="review-form" th:object="${ratingAddBindingModel}" th:method="POST" th:action="@{/add-rating/{id}(id=${hotel.id})}"
+  <form id="review-form" name="review-form" th:object="${ratingAddBindingModel}" th:method="POST" th:action="@{/add-rating/{id}(id=${hotel.getId()})}"
         class="main-form" style="width: 64%; display: none">
       <div class=" p-1">
           <div class="form-group" style="display: inline-block">

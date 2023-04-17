@@ -31,7 +31,7 @@ public class AdminController {
         if(!userService.hasRole("ADMIN", userService.getCurrentUser().getId())){
             return "redirect:/";
         }
-        if(bindingResult.hasErrors()|| userSearchBindingModel.isEmpty()){
+        if(bindingResult.hasErrors() || userSearchBindingModel.isEmpty()){
             redirectAttributes.addFlashAttribute("userSearchBindingModel", userSearchBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userSearchBindingModel", bindingResult);
 

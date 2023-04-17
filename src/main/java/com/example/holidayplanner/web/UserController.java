@@ -1,5 +1,6 @@
 package com.example.holidayplanner.web;
 
+import com.example.holidayplanner.models.binding.UserEditBindingModel;
 import com.example.holidayplanner.models.binding.UserRegisterBindingModel;
 import com.example.holidayplanner.models.service.UserServiceModel;
 import com.example.holidayplanner.services.HotelService;
@@ -11,11 +12,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -47,6 +47,27 @@ public class UserController {
     public String profile(Model model){
         model.addAttribute("currentUser", userService.getCurrentUser());
         return "/my-profile";
+    }
+
+    @PutMapping("/edit-username/{id}")
+    public String editUsername(@PathVariable Long id, @Valid UserEditBindingModel userEditBindingModel,
+                               BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if(!id.equals(userService.getCurrentUser().getId())){
+            return "redirect:/destinations";
+        }
+
+        if(bindingResult.hasErrors() || userEditBindingModel.isEmpty()){
+            redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userEditBindingModel", bindingResult);
+
+            return "redirect:/my-profile";
+        }
+
+        userService.editUsername(userEditBindingModel, id);
+
+        return "redirect:/my-profile";
+
     }
 
     @GetMapping("/my-favorites")
@@ -108,5 +129,10 @@ public class UserController {
     @ModelAttribute
     public UserRegisterBindingModel userRegisterBindingModel(){
         return new UserRegisterBindingModel();
+    }
+
+    @ModelAttribute
+    public UserEditBindingModel userEditBindingModel(){
+        return new UserEditBindingModel();
     }
 }

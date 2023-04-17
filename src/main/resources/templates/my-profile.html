@@ -9,12 +9,28 @@
 
 <div class="container" style="font-size: 1.4rem; margin-bottom: 8rem">
   <div class="text-white text-center mt-5" style="font-size: 2rem; margin-bottom: 4rem; text-shadow: 0px 0px 11px rgba(0,0,0,0.5);">User Details</div>
-  <div class="text-white mb-1 d-flex align-items-center"><span>Email:&nbsp;</span><span th:text="${currentUser.email}"></span><button class="edit-username-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-pencil-square" viewBox="0 0 16 16">
-    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-  </svg></button></div>
-  <div class="text-white mb-2">First name: <span th:text="${currentUser.firstName}"></span></div>
-  <div class="text-white mb-2">Last name: <span th:text="${currentUser.lastName}"></span></div>
+  <div class="text-white mb-1 d-flex align-items-center" id="username-row">
+    <span>Email:&nbsp;</span><span th:text="${currentUser.email}" id="current-username" style="text-shadow: 0px 0px 11px rgba(0,0,0,0.5);"></span>
+    <form style="display: inline" id="edit-username-form" th:object="${userEditBindingModel}" th:method="PUT"
+          th:action="@{/edit-username/{id}(id=${currentUser.getId()})}">
+      <input th:field="*{email}" class="form-control" id="edit-username-input" name="edit-username-input" type="search"
+             placeholder="New username..."
+             aria-label="Search" style="display: inline; width: 75%"/>
+<!--             id="name" style="width: 60%;display: inline-block; vertical-align: middle"/>-->
+      <button class="btn btn-outline-info" type="submit" id="edit-username-btn">Done</button>
+<!--      style="display: inline-block; vertical-align: middle; width: 10%;"-->
+    </form>
+    <button id="show-edit-username-form"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg>
+    </button>
+  </div>
+  <div>
+    <p id="edit-username-error" class="errors alert alert-danger" style="display: none; width: 38%; font-size: 16px">
+      Username should be between 3 and 20 symbols.
+    </p>
+  </div>
+  <div class="text-white mb-2">First name: <span th:text="${currentUser.firstName}" style="text-shadow: 0px 0px 11px rgba(0,0,0,0.5);"></span></div>
+  <div class="text-white mb-2">Last name: <span th:text="${currentUser.lastName}" style="text-shadow: 0px 0px 11px rgba(0,0,0,0.5);"></span></div>
 </div>
 <div class="container mt-5 my-profile-links-container" style="border-top: white solid 2px;">
   <div class="text-white" style="font-size: 1.6rem; text-align: center; width: 60%; margin: auto">Browse through your favorite travel destinations, hotels and past or current reservations:</div>
@@ -28,5 +44,30 @@
     <a th:href="@{/my-reservations}">My Reservations</a>
   </div>
 </div>
+<script>
+  let editUsernameBtn = document.getElementById("edit-username-btn");
+  editUsernameBtn.addEventListener("click", function (event) {
+    let usernameInput = document.getElementById("edit-username-input");
+    if(usernameInput.value.length<3||usernameInput.value.length>20){
+      document.getElementById("edit-username-error").style.display="block";
+      document.getElementById("edit-username-error").classList.add("mt-3");
+      event.preventDefault();
+    }
+  });
+
+  let editUserNameForm = document.getElementById("edit-username-form");
+  editUserNameForm.style.display="none";
+  let showEditFormBtn = document.getElementById("show-edit-username-form");
+  showEditFormBtn.addEventListener("click", function (event) {
+    let currentNameSpan = document.getElementById("current-username");
+    let currentName = currentNameSpan.textContent;
+    let usernameInput = document.getElementById("edit-username-input");
+    currentNameSpan.style.display = "none";
+    editUserNameForm.style.display = "inline";
+    usernameInput.value=currentName;
+    showEditFormBtn.style.display="none";
+    event.preventDefault();
+  });
+</script>
 </body>
 </html>
