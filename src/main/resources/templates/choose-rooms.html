@@ -12,11 +12,11 @@
     </div>
     <form th:action="@{/search-rooms/{id}(id=${currentHotel.id})}" th:method="POST" th:object="${reservationAddBindingModel}"
         class="mt-5 main-form text-white" style="width: 90%">
-      <div style="display: flex; justify-content: space-between" class="my-2">
-          <div style="display: inline"><label for="adults-count" class="mr-1">Adults count</label>
+      <div style="display: flex; justify-content: space-between; align-items: center" class="my-2">
+          <div style="display: inline" class="adults-count-container"><label for="adults-count" class="mr-1">Adults count</label>
               <input th:field="*{adultsCount}" type="number" id="adults-count"
                      placeholder="Adults"></div>
-          <div style="display: inline"><label for="children-count" class="mr-1">Children count</label>
+          <div style="display: inline" class="children-count-container"><label for="children-count" class="mr-1">Children count</label>
               <input th:field="*{childrenCount}" type="number" id="children-count"
                      placeholder="Children"></div>
           <div style="display: inline"><label for="type" class="mr-1">Room type</label>
@@ -45,7 +45,7 @@
     <p th:if="${roomAvailability==false}" class="errors alert alert-danger">
       No rooms available in the hotel for that time period.
     </p>
-    <button type="submit" class="btn mb-1">Search for available room</button>
+    <button type="submit" class="btn mb-1">Create Reservation</button>
   </form>
 </div>
 

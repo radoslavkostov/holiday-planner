@@ -41,7 +41,7 @@
         <span th:text="*{comments.size()}"></span><span> comments:</span>
     </div>
     <div th:each="c : ${comments}" th:object="${c}" class="mb-2" style="color: #343a40;">
-        <div class="card mb-3" style="min-width: 30rem; max-width: 100%; display: inline-block">
+        <div class="card mb-3 comment">
             <div class="card-body">
                 <div>
                     <h5 class="card-title mr-2" style="display: inline; background-color: #343a40; border-radius: 4px; color: white; padding: 4px" th:text="*{getUser().firstName+' '+getUser().lastName}"></h5>
