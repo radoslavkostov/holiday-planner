@@ -8,13 +8,6 @@ body {
   color: lightgray;
 }
 
-/*.navbar .logo {*/
-/*  max-height: 50px;*/
-/*  padding-right: 100px;*/
-/*}*/
-/*body>.nav-link{*/
-/*  color: white;*/
-/*}*/
 
 nav{
   box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.15);
@@ -88,7 +81,6 @@ nav{
 .favor-btn:hover:after {
   content: "Add to favorites";
   position: absolute;
-  /*pointer-events: none;*/
   top: calc(100% + 5px);
   left: calc(50% - 40px);
   background-color: #333;
@@ -96,13 +88,11 @@ nav{
   width: 9rem;
   padding-left: 0.1em;
   padding-bottom: 0.1em;
-  /*padding: 0.2em 0.5em;*/
   border-radius: 5px;
   z-index: 1;
 }
 .disfavor-btn {
   position: absolute;
-  /*right: 0;*/
   top: 55%;
   transform: translateY(-50%);
   background-color: #525252;
@@ -120,7 +110,6 @@ nav{
 .disfavor-btn:hover:after {
   content: "Remove from favorites";
   position: absolute;
-  /*pointer-events: none;*/
   top: calc(100% + 5px);
   left: calc(50% - 40px);
   background-color: #333;
@@ -128,7 +117,6 @@ nav{
   width: 12rem;
   padding-left: 0.1em;
   padding-bottom: 0.1em;
-  /*padding: 0.2em 0.5em;*/
   border-radius: 5px;
   z-index: 1;
 }
@@ -215,11 +203,9 @@ nav{
   cursor: pointer;
 }
 .reserve-link{
-  /*color: lightblue;*/
   font-size: 1.2rem;
 }
 .reserve-link:hover{
-  /*color: #3e96b5;*/
 }
 .hotel-link{
   color: lightblue;
@@ -269,7 +255,6 @@ nav{
 }
 
 .my-reservations-hotel-link{
-  /*color: lightblue;*/
 }
 .my-reservations-hotel-link:hover{
   color: #3e96b5;
@@ -291,36 +276,14 @@ nav{
   height: 15rem;
 }
 
-/*.carousel {*/
-/*  overflow: hidden;*/
-/*  width: 20rem;*/
-/*  height: 15rem;*/
-/*  margin: 0 auto;*/
-/*  position: relative;*/
-/*  left: 28rem;*/
-/*  bottom: 16rem;*/
-/*  border-radius: 4px;*/
-/*  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);*/
-/*}*/
-/*.slides {*/
-/*  display: flex;*/
-/*  position: absolute;*/
-/*  width: 20rem;*/
-/*  height: 15rem;*/
-/*  animation: slide 30s infinite;*/
-/*}*/
-/*.slides>img {*/
-/*  width: 20rem;*/
-/*  height: 15rem;*/
-/*}*/
 
 .container, .container-fluid {
   padding-top: 90px;
 }
 
 .bg-text {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.4);
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;
@@ -388,9 +351,7 @@ form.main-form {
   cursor: pointer;
   fill: lightgray;
 }
-/*.edit-username-btn:hover {*/
-/*  cursor: pointer;*/
-/*}*/
+
 #show-edit-username-form:focus {
   outline: none;
 }
@@ -405,6 +366,7 @@ form.main-form {
   width: 4rem;
 }
 
+/*media queries*/
 @media (max-width: 1401px) {
   .navbar-container{
     font-size: 13px;
@@ -433,12 +395,6 @@ form.main-form {
   #logout-btn{
     font-size: 11px;
   }
-  /*.destination-details-name{*/
-  /*  font-size: 1.8rem;*/
-  /*}*/
-  /*.destination-description{*/
-  /*  font-size: 1.1rem;*/
-  /*}*/
 }
 .search-hotel-input{
   width: 60%;

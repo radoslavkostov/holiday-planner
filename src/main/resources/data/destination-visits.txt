@@ -16,3 +16,20 @@ Mexico City - 1
 New York City - 1
 Hong Kong - 1
 Bangkok - 2
+
+2023-04-19:
+Sofia - 20
+Rome - 0
+Bali - 5
+Barcelona - 30
+Berlin - 0
+Sydney - 0
+Cape Town - 0
+Tokyo - 0
+Buenos Aires - 0
+Cairo - 0
+Amsterdam - 0
+Mexico City - 0
+New York City - 2
+Hong Kong - 0
+Bangkok - 0

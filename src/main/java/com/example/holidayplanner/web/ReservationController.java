@@ -99,16 +99,6 @@ public class ReservationController {
     public String success(){
         return "successful-reservation";
     }
-//
-//
-//    @PreAuthorize("@reservationService.isOwner(#principal.username, #id)")
-//    @GetMapping("/delete-reservation/{id}")
-//    public String deleteReservation(
-//            @PathVariable("id") Long id) {
-//        reservationService.deleteById(id);
-//
-//        return "redirect:/my-reservations";
-//    }
 
     @ModelAttribute
     public ReservationAddBindingModel reservationAddBindingModel(){

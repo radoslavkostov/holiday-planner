@@ -35,7 +35,7 @@ public class CommentServiceTest {
     @Mock
     private UserService userService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private CommentService commentService;
 
@@ -46,7 +46,6 @@ public class CommentServiceTest {
 
     @Test
     public void getCommentsByForumId_ShouldReturnListOfCommentViewModels() {
-        // Arrange
         Long forumId = 1L;
         List<CommentEntity> commentEntities = new ArrayList<>();
         CommentEntity commentEntity = new CommentEntity();
@@ -56,10 +55,8 @@ public class CommentServiceTest {
 
         when(commentRepository.findByForumId(forumId)).thenReturn(commentEntities);
 
-        // Act
         List<CommentViewModel> result = commentService.getCommentsByForumId(forumId);
 
-        // Assert
         assertEquals(1, result.size());
         assertEquals(1L, result.get(0).getId());
         assertEquals("Test content", result.get(0).getContent());
@@ -67,7 +64,6 @@ public class CommentServiceTest {
 
     @Test
     public void addComment_ShouldAddCommentToRepository() {
-        // Arrange
         Long forumId = 1L;
         CommentServiceModel commentServiceModel = new CommentServiceModel();
         commentServiceModel.setContent("Test content");
@@ -88,16 +84,13 @@ public class CommentServiceTest {
 
         when(commentRepository.save(any(CommentEntity.class))).thenReturn(commentEntity);
 
-        // Act
         commentService.addComment(commentServiceModel, forumId);
 
-        // Assert
         verify(commentRepository).save(any(CommentEntity.class));
     }
 
     @Test
     public void deleteComment_ShouldDeleteCommentFromRepository() {
-        // Arrange
         Long id = 1L;
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setId(id);
@@ -105,24 +98,19 @@ public class CommentServiceTest {
 
         when(commentRepository.findById(id)).thenReturn(Optional.of(commentEntity));
 
-        // Act
         Long result = commentService.deleteComment(id);
 
-        // Assert
         assertEquals(commentEntity.getForum().getId(), result);
         verify(commentRepository).delete(commentEntity);
     }
 
     @Test
     public void deleteComment_ShouldReturnNegativeOneIfCommentDoesNotExist() {
-        // Arrange
         Long id = 1L;
         when(commentRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
         Long result = commentService.deleteComment(id);
 
-        // Assert
         assertEquals(-1L, result);
         verify(commentRepository, never()).delete(any(CommentEntity.class));
     }

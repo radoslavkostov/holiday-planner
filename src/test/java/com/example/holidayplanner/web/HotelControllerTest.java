@@ -9,7 +9,6 @@ import com.example.holidayplanner.services.HotelService;
 import com.example.holidayplanner.services.RatingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,8 +43,6 @@ public class HotelControllerTest {
     @MockBean
     private RatingService ratingService;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Test
     void hotelsTest_Error() throws Exception {
@@ -100,17 +97,14 @@ public class HotelControllerTest {
         expectedResult.add((double) size);
         expectedResult.add(averageRating);
 
-        // Mock the ratingService to return the expected average rating and size
         when(ratingService.findAverageRating(hotelId)).thenReturn(averageRating);
         when(ratingService.findByHotelId(hotelId)).thenReturn(Collections.nCopies(size, new RatingViewModel()));
 
-        // Make the request to the controller
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/ratings-info/" + hotelId)
                 .header("X-Requested-With", "XMLHttpRequest"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Verify the response matches the expected result
         String responseBody = result.getResponse().getContentAsString();
         List<Double> actualResult = new ObjectMapper().readValue(responseBody, List.class);
         assertEquals(expectedResult, actualResult);
@@ -120,12 +114,10 @@ public class HotelControllerTest {
     public void testRatingsInfoReturnsErrorViewForNonAjaxRequest() throws Exception {
         Long hotelId = 1L;
 
-        // Make the request to the controller with a non-AJAX header
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/ratings-info/" + hotelId))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Verify that the response is a view with name "error"
         ModelAndView modelAndView = result.getModelAndView();
         assertNotNull(modelAndView);
         assertEquals("error", modelAndView.getViewName());

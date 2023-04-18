@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,8 +27,6 @@ public class AppUserDetailsServiceTest {
 
     private AppUserDetailsService appUserDetailsService;
 
-    private final ModelMapper modelMapper = new ModelMapper();
-
     @BeforeEach
     void setUp() {
         appUserDetailsService = new AppUserDetailsService(userRepository);
@@ -37,38 +34,31 @@ public class AppUserDetailsServiceTest {
 
     @Test
     public void testLoadUserByUsernameThrowsExceptionWhenUserNotFound() {
-        String email = "user@com";
-        // Arrange
-        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        String username = "user@com";
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
-            appUserDetailsService.loadUserByUsername(email);
-        });
+        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> appUserDetailsService.loadUserByUsername(username));
 
-        String expectedMessage = "User with email " + email + " not found!";
+        String expectedMessage = "User with username " + username + " not found!";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
     void testLoadUserByUsernameReturnsUserDetails() {
-        // Arrange
-        String email = "test@example.com";
+        String username = "test@example.com";
         UserEntity user = new UserEntity();
-        user.setEmail(email);
+        user.setUsername(username);
         user.setPassword("password");
         UserRoleEntity role = new UserRoleEntity();
         role.setUserRole(UserRoleEnum.MODERATOR);
         user.setUserRoles(Collections.singletonList(role));
-        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        // Act
-        UserDetails userDetails = appUserDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = appUserDetailsService.loadUserByUsername(username);
 
-        // Assert
         assertNotNull(userDetails);
-        assertEquals(email, userDetails.getUsername());
+        assertEquals(username, userDetails.getUsername());
         assertEquals("password", userDetails.getPassword());
         assertEquals(1, userDetails.getAuthorities().size());
         assertTrue(userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));

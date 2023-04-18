@@ -33,7 +33,7 @@ public class ReservationServiceTest {
     @Mock
     private HotelRoomService hotelRoomService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private ReservationService reservationService;
 
@@ -56,7 +56,7 @@ public class ReservationServiceTest {
         when(hotelRoomService.getValidRooms(reservationServiceModel.getType(), hotelId))
                 .thenReturn(Collections.singletonList(hotelRoomEntity));
         when(userService.getCurrentUser()).thenReturn(new UserEntity());
-        when(reservationRepository.reservationValidityCheck(reservationServiceModel.getStartDate(),
+        when(reservationRepository.findIntersectingReservations(reservationServiceModel.getStartDate(),
                 reservationServiceModel.getEndDate(), hotelRoomEntity.getId()))
                 .thenReturn(Collections.emptyList());
 
@@ -65,7 +65,7 @@ public class ReservationServiceTest {
         assertTrue(result);
         verify(hotelRoomService, times(1)).getValidRooms(reservationServiceModel.getType(), hotelId);
         verify(userService, times(1)).getCurrentUser();
-        verify(reservationRepository, times(1)).reservationValidityCheck(reservationServiceModel.getStartDate(),
+        verify(reservationRepository, times(1)).findIntersectingReservations(reservationServiceModel.getStartDate(),
                 reservationServiceModel.getEndDate(), hotelRoomEntity.getId());
         verify(reservationRepository, times(1)).save(any(ReservationEntity.class));
     }
@@ -85,7 +85,7 @@ public class ReservationServiceTest {
 
         assertFalse(result);
         verify(hotelRoomService, times(1)).getValidRooms(reservationServiceModel.getType(), hotelId);
-        verify(reservationRepository, never()).reservationValidityCheck(any(), any(), any());
+        verify(reservationRepository, never()).findIntersectingReservations(any(), any(), any());
         verify(reservationRepository, never()).save(any(ReservationEntity.class));
     }
 

@@ -30,7 +30,7 @@ public class FavoriteServiceTest {
     @Mock
     private TravelDestinationService travelDestinationService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private FavoriteService favoriteService;
 

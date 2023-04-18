@@ -10,7 +10,7 @@
     <div class="text-white mb-4" style="font-size: 1.4rem; ">Search for any user:</div>
     <form th:method="GET" th:action="@{/admin-panel}" th:object="${userSearchBindingModel}" class="">
         <div class="">
-            <input th:field="*{email}" class="form-control" type="search"
+            <input th:field="*{username}" class="form-control" type="search"
                    placeholder="User name..."
                    aria-label="Search"
                    id="name" style="width: 60%;display: inline-block; vertical-align: middle"/>
@@ -21,7 +21,7 @@
 <div class="container">
     <div th:if="${users!=null&&users.isEmpty()}" class="text-white">No results found.</div>
     <div th:each="u : ${users}" th:object="${u}"  class="my-3">
-        <a th:href="@{/user-details/{id}(id = *{id})}" th:text="*{email}" class="btn btn-info"></a>
+        <a th:href="@{/user-details/{id}(id = *{id})}" th:text="*{username}" class="btn btn-info"></a>
     </div>
 </div>
 </body>

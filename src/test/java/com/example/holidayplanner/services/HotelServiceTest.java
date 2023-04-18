@@ -25,7 +25,7 @@ public class HotelServiceTest {
     @Mock
     private HotelRepository hotelRepository;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private HotelService hotelService;
 

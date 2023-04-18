@@ -9,7 +9,7 @@ import com.example.holidayplanner.services.ReservationService;
 import com.example.holidayplanner.services.TravelDestinationService;
 import com.example.holidayplanner.services.UserService;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,9 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -45,8 +47,8 @@ public class UserControllerTest {
     @MockBean
     private  HotelService hotelService;
 
-    @Autowired
-    private  ModelMapper modelMapper;
+    @Mock
+    private Model model;
 
     @Test
     void homeShouldReturnIndexIfNoCurrentUser() throws Exception {
@@ -121,6 +123,16 @@ public class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/users/register"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("auth-register"));
+    }
+
+    @Test
+    void registerShouldAddUsernameExistsIfFlashAttributeExists() throws Exception {
+        when(model.asMap()).thenReturn(Map.of("usernameExists", true));
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/register").flashAttr("usernameExists", true))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("usernameExists"))
+                .andExpect(view().name("auth-register"));
+
     }
 
     @Test

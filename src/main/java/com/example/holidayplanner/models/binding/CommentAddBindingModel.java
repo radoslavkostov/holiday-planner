@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class CommentAddBindingModel {
 
-    @Size(min = 2, message = "Comment should be at least 2 symbols.")
+    @Size(min = 2, max = 500, message = "Comment should be between 2 and 500 characters.")
     private String content;
 
     public boolean isEmpty() {

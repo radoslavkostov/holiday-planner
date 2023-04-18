@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserViewModel {
     private Long id;
-    private String email;
+    private String username;
     private String password;
     private String firstName;
     private String lastName;

@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -45,6 +44,11 @@ public class UserController {
 
     @GetMapping("/my-profile")
     public String profile(Model model){
+        Boolean usernameExists = (Boolean) model.asMap().get("usernameExists");
+        if (usernameExists != null) {
+            model.addAttribute("usernameExists", true);
+        }
+
         model.addAttribute("currentUser", userService.getCurrentUser());
         return "/my-profile";
     }
@@ -60,6 +64,14 @@ public class UserController {
         if(bindingResult.hasErrors() || userEditBindingModel.isEmpty()){
             redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userEditBindingModel", bindingResult);
+
+            return "redirect:/my-profile";
+        }
+
+        if(userService.checkIfUsernameExists(userEditBindingModel.getUsername())){
+            redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userEditBindingModel", bindingResult);
+            redirectAttributes.addFlashAttribute("usernameExists", true);
 
             return "redirect:/my-profile";
         }
@@ -92,7 +104,12 @@ public class UserController {
     }
 
     @GetMapping("/users/register")
-    public String register() {
+    public String register(Model model) {
+        Boolean usernameExists = (Boolean) model.asMap().get("usernameExists");
+        if (usernameExists != null) {
+            model.addAttribute("usernameExists", true);
+        }
+
         return "auth-register";
     }
 
@@ -105,6 +122,15 @@ public class UserController {
 
             return "redirect:/users/register";
         }
+
+        if(userService.checkIfUsernameExists(userRegisterBindingModel.getUsername())){
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
+            redirectAttributes.addFlashAttribute("usernameExists", true);
+
+            return "redirect:/users/register";
+        }
+
         userService.registerAndLogin(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
         return "redirect:/";
     }

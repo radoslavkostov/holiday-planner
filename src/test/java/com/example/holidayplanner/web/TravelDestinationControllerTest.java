@@ -5,7 +5,6 @@ import com.example.holidayplanner.models.view.TravelDestinationViewModel;
 import com.example.holidayplanner.services.FavoriteService;
 import com.example.holidayplanner.services.TravelDestinationService;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,9 +31,6 @@ public class TravelDestinationControllerTest {
 
     @MockBean
     private FavoriteService favoriteService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Test
     void destinationsTest() throws Exception{

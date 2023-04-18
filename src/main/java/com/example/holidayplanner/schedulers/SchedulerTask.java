@@ -18,9 +18,9 @@ public class SchedulerTask {
         this.destinationVisitsService = destinationVisitsService;
     }
 
-    @Scheduled(cron = "59 59 23 * * *")
+    @Scheduled(cron = "0 10 0 * * *")
     public void reportCurrentTime(){
-        File file = new File("C:\\Users\\User\\Desktop\\travel-agency\\src\\main\\resources\\data\\destination-visits.txt");
+        File file = new File("C:\\Users\\User\\Desktop\\java-web\\holiday-planner\\src\\main\\resources\\data\\destination-visits.txt");
 
         try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write("\n");

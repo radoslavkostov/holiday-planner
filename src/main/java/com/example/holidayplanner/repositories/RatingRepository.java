@@ -17,7 +17,5 @@ public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
     @Query(value = "select avg(r.value) from RatingEntity r join HotelEntity h on h.id=r.hotel.id where h.id=:hotelId group by h.id")
     Double findAverageRating(@Param("hotelId") Long hotelId);
 
-    List<RatingEntity> findByUserId(Long user_id);
-
     Optional<RatingEntity> findByUserIdAndHotelId(Long user_id, Long hotel_id);
 }

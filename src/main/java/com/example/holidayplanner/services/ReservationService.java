@@ -30,7 +30,7 @@ public class ReservationService {
     public boolean chooseRooms(ReservationServiceModel reservationServiceModel, Long hotelId) {
         List<HotelRoomEntity> roomList = hotelRoomService.getValidRooms(reservationServiceModel.getType(), hotelId);
         for (HotelRoomEntity hotelRoomEntity : roomList) {
-            List<ReservationEntity> list = reservationRepository.reservationValidityCheck(reservationServiceModel.getStartDate(), reservationServiceModel.getEndDate(), hotelRoomEntity.getId());
+            List<ReservationEntity> list = reservationRepository.findIntersectingReservations(reservationServiceModel.getStartDate(), reservationServiceModel.getEndDate(), hotelRoomEntity.getId());
             if(list.isEmpty()){
                 ReservationEntity reservation = modelMapper.map(reservationServiceModel, ReservationEntity.class);
                 reservation.setHotelRoom(hotelRoomEntity);
@@ -54,12 +54,5 @@ public class ReservationService {
                 .map(reservationEntity -> modelMapper.map(reservationEntity, ReservationViewModel.class))
                 .collect(Collectors.toList());
     }
-//
-//    public boolean isOwner(String username, Long reservationId){
-//        return reservationRepository.findById(reservationId).filter(r -> r.getUser().getEmail().equals(username)).isPresent();
-//    }
-//
-//    public void deleteById(Long id) {
-//        reservationRepository.deleteById(id);
-//    }
+
 }

@@ -38,7 +38,7 @@ public class AdminController {
             return "admin-panel";
         }
 
-        model.addAttribute("users", userService.findByEmail(modelMapper.map(userSearchBindingModel, UserServiceModel.class)));
+        model.addAttribute("users", userService.findByUsername(modelMapper.map(userSearchBindingModel, UserServiceModel.class)));
 
         return "admin-panel";
     }

@@ -27,7 +27,7 @@ public class TravelDestinationServiceTest {
     @Mock
     private TravelDestinationRepository travelDestinationRepository;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private TravelDestinationService travelDestinationService;
 

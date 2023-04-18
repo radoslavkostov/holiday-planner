@@ -6,7 +6,6 @@ import com.example.holidayplanner.services.CommentService;
 import com.example.holidayplanner.services.ForumService;
 import com.example.holidayplanner.services.UserService;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,8 +37,6 @@ public class ForumControllerTest {
     @MockBean
     private UserService userService;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Test
     void forumsTest() throws Exception {
@@ -68,23 +65,6 @@ public class ForumControllerTest {
                 .andExpect(model().attributeExists("isModerator"))
                 .andExpect(view().name("forum-comments"));
     }
-//
-//    @Test
-//    void addComment_ShouldRedirectToForumCommentsViewIfBindingResultHasErrors() throws Exception {
-//        // Arrange
-//        Long forumId = 1L;
-//        CommentAddBindingModel commentAddBindingModel = new CommentAddBindingModel();
-//        BindingResult bindingResult = new BeanPropertyBindingResult(commentAddBindingModel, "commentAddBindingModel");
-//        bindingResult.addError(new FieldError("commentAddBindingModel", "content", "Content is required"));
-//
-//        // Act & Assert
-//        mockMvc.perform(MockMvcRequestBuilders.post("/add-comment/"+forumId)
-//                .flashAttr("commentAddBindingModel", commentAddBindingModel)
-//                .flashAttr("org.springframework.validation.BindingResult.commentAddBindingModel", bindingResult))
-////                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/forums/" + forumId))
-//                .andReturn();
-//    }
 
     @Test
     void deleteCommentTest_ShouldRedirectToIndexPageIfUserIsNotModerator() throws Exception {

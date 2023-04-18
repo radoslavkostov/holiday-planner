@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class RatingAddBindingModel {
 
-    @Size(min = 20, max = 5000, message = "Review content should be between 20 and 2000 symbols.")
+    @Size(min = 20, max = 5000, message = "Review size should be between 20 and 5000 characters.")
     private String review;
     @Min(1)
     @Max(5)

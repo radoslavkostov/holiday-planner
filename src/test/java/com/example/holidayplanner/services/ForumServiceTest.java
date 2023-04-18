@@ -22,7 +22,7 @@ public class ForumServiceTest {
     @Mock
     private ForumRepository forumRepository;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private ForumService forumService;
 

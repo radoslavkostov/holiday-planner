@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReservationAddBindingModel {
 
-    @Min(value = 1, message = "Adult count cannot be zero.")
+    @Min(value = 1, message = "Adults count cannot be zero.")
     private int adultsCount;
 
     @NotNull

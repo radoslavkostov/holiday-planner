@@ -53,7 +53,7 @@ public class AdminControllerTest {
     @Test
     void adminPanel_WithInvalidUserSearchBindingModel_ShouldRedirectToAdminPanelView() throws Exception {
         UserSearchBindingModel userSearchBindingModel = new UserSearchBindingModel();
-        userSearchBindingModel.setEmail("email");
+        userSearchBindingModel.setUsername("username");
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1L);
         when(userService.getCurrentUser()).thenReturn(userEntity);
@@ -68,7 +68,7 @@ public class AdminControllerTest {
     @Test
     void adminPanel_WithValidUserSearchBindingModel_ShouldReturnAdminPanelView() throws Exception {
         UserSearchBindingModel userSearchBindingModel = new UserSearchBindingModel();
-        userSearchBindingModel.setEmail("");
+        userSearchBindingModel.setUsername("");
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1L);
         when(userService.getCurrentUser()).thenReturn(userEntity);

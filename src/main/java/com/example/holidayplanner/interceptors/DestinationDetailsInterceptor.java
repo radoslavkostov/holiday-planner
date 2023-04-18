@@ -17,7 +17,7 @@ public class DestinationDetailsInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String url = request.getRequestURI();
         int lastSlashIndex = url.lastIndexOf("/");
         String idString = url.substring(lastSlashIndex + 1);

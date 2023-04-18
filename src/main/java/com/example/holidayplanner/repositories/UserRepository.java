@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByUsername(String username);
 
-    @Query(value = "select u from UserEntity u where u.email like %:email%")
-    List<UserEntity> findAllByEmail(@Param("email") String email);
+    @Query(value = "select u from UserEntity u where u.username like %:username%")
+    List<UserEntity> findAllByUsername(@Param("username") String username);
 
 
 }

@@ -24,7 +24,7 @@ public class ArticleServiceTest {
     @Mock
     private ArticleRepository articleRepository;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private ArticleService articleService;
 

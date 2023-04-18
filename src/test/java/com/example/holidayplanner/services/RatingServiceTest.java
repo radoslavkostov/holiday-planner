@@ -32,7 +32,7 @@ public class RatingServiceTest {
     @Mock
     private UserService userService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private RatingService ratingService;
 

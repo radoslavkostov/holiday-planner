@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserSearchBindingModel {
-    private String email;
+    private String username;
     public boolean isEmpty() {
-        return (email == null || email.isEmpty());
+        return (username == null || username.isEmpty());
     }
 }

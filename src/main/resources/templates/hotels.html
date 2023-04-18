@@ -19,7 +19,6 @@
   </form>
 </div>
 <div class="container mb-5">
-  <!--  <div th:if="${destinations!=null&&!destinations.isEmpty()}" class="text-white">Results:</div>-->
   <div th:if="${hotels!=null&&hotels.isEmpty()}" class="text-white">No results found.</div>
   <div class="d-flex row justify-content-start">
     <div th:each="d : ${hotels}" th:object="${d}"  class="card m-2"
@@ -33,15 +32,5 @@
     </div>
   </div>
 </div>
-<!--<div th:each="h : ${hotels}" th:object="${h}" class="card mt-5">-->
-<!--  <div class="card-header" th:text="*{name}">-->
-<!--  </div>-->
-<!--  <div class="card-body">-->
-<!--    <p class="card-text" th:text="*{shortDescription}"></p>-->
-<!--    <a th:href="@{/hotels/{id}(id=*{id})}">-->
-<!--      Details-->
-<!--    </a>-->
-<!--  </div>-->
-<!--</div>-->
 </body>
 </html>

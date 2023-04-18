@@ -1,11 +1,11 @@
 package com.example.holidayplanner.web;
 
+import com.example.holidayplanner.models.view.HotelViewModel;
 import com.example.holidayplanner.models.view.TravelDestinationViewModel;
 import com.example.holidayplanner.services.HotelService;
-import com.example.holidayplanner.services.ReservationService;
 import com.example.holidayplanner.services.TravelDestinationService;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,16 +32,13 @@ public class ReservationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ReservationService reservationService;
-
-    @MockBean
     private TravelDestinationService travelDestinationService;
 
     @MockBean
     private HotelService hotelService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    @Mock
+    private Model model;
 
     @Test
     void selectHotelShouldReturnChooseHotel() throws Exception {
@@ -54,4 +53,24 @@ public class ReservationControllerTest {
                 .andExpect(view().name("choose-hotel"));
 
     }
+
+    @Test
+    void chooseRoomsShouldAddRoomAvailabilityAsTrueIfFlashAttributeExists() throws Exception {
+        when(model.asMap()).thenReturn(Map.of("roomAvailability", true));
+        when(hotelService.findById(anyLong())).thenReturn(new HotelViewModel());
+        mockMvc.perform(MockMvcRequestBuilders.get("/choose-rooms/"+1L).flashAttr("roomAvailability", true))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("roomAvailability"))
+                .andExpect(model().attributeExists("currentHotel"))
+                .andExpect(view().name("choose-rooms"));
+
+    }
+
+    @Test
+    void successfulReservationShouldReturnSuccessfulReservationPage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/successful-reservation"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("successful-reservation"));
+    }
+
 }

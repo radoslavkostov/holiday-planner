@@ -3,7 +3,6 @@ package com.example.holidayplanner.models.binding;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @Data
@@ -21,9 +20,8 @@ public class UserRegisterBindingModel {
 
     private String confirmPassword;
 
-    @Email(message = "Not a valid email format.")
-    @Size(min = 3, max = 20, message = "Not a valid email format.")
-    private String email;
+    @Size(min = 3, max = 20, message = "Username should be between 3 and 20 characters.")
+    private String username;
 
     public String getFirstName() {
         return firstName;
@@ -52,12 +50,12 @@ public class UserRegisterBindingModel {
         return this;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public UserRegisterBindingModel setEmail(String email) {
-        this.email = email;
+    public UserRegisterBindingModel setUsername(String username) {
+        this.username = username;
         return this;
     }
 

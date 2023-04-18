@@ -29,16 +29,6 @@
   </div>
 </div>
 
-<!--<div th:each="f : ${favorites}" th:object="${f}" class="card mt-5">-->
-<!--  <div class="card-header" th:text="*{name}">-->
-<!--  </div>-->
-<!--  <div class="card-body">-->
-<!--    <p class="card-text" th:text="*{shortDescription}"></p>-->
-<!--    <a th:href="@{/destinations/{id}(id=*{id})}">-->
-<!--      Details-->
-<!--    </a>-->
-<!--  </div>-->
-<!--</div>-->
 <div class="container text-white" style="font-size: 1.2rem">
   <th:block th:if="${favorites.isEmpty()}">You don't have any favorite destinations yet. <a th:href="@{/destinations}" class="text-info">Try exploring!</a></th:block>
 </div>

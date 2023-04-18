@@ -6,7 +6,6 @@ import com.example.holidayplanner.enums.UserRoleEnum;
 import com.example.holidayplanner.models.service.UserServiceModel;
 import com.example.holidayplanner.models.view.UserViewModel;
 import com.example.holidayplanner.repositories.UserRepository;
-import com.example.holidayplanner.repositories.UserRoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +26,7 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private UserRoleRepository userRoleRepository;
-
-    private PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder();
 
     @Mock
     private UserDetailsService userDetailsService;
@@ -38,16 +34,14 @@ public class UserServiceTest {
     @Mock
     private UserRoleService userRoleService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private UserService userService;
-
-    String adminPass = "topsecret";
 
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, userRoleRepository, passwordEncoder, userDetailsService, userRoleService, modelMapper, adminPass);
+        userService = new UserService(userRepository, passwordEncoder, userDetailsService, userRoleService, modelMapper);
     }
 
     @Test
@@ -82,13 +76,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void testFindByEmailReturnsUserViewModelList() {
+    void testFindByUsernameReturnsUserViewModelList() {
         List<UserEntity> userList = Arrays.asList(new UserEntity(), new UserEntity());
-        when(userRepository.findAllByEmail("test@example.com")).thenReturn(userList);
+        when(userRepository.findAllByUsername("test@example.com")).thenReturn(userList);
 
         UserServiceModel userServiceModel = new UserServiceModel();
-        userServiceModel.setEmail("test@example.com");
-        List<UserViewModel> result = userService.findByEmail(userServiceModel);
+        userServiceModel.setUsername("test@example.com");
+        List<UserViewModel> result = userService.findByUsername(userServiceModel);
 
         assertEquals(2, result.size());
     }
